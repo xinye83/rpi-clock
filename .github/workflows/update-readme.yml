@@ -1,0 +1,28 @@
+name: Update README.md
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Prepare .bash_profile for replacer
+        run: |
+          echo "\`\`\`bash" > .bash_profile.tmp
+          echo config/.bash_profile >> .bash_profile.tmp
+          echo "\`\`\`" >> .bash_profile.tmp
+
+      - name: Update README.md with config/.bash_profile
+        uses: unfor19/replacer-action@v1.0.6
+        with:
+          src-file-path: .bash_profile.tmp
+          dst-file-path: README.md
+          start-value: "<!-- bash_profile_start -->"
+          end-value: "<!-- bash_profile_end -->"
