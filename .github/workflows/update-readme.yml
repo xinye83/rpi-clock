@@ -22,7 +22,7 @@ jobs:
       - name: Update README.md with config/.bash_profile
         uses: unfor19/replacer-action@v1.0.6
         with:
-          src-file-path: .bash_profile.tmp
-          dst-file-path: README.md
+          src-file-path: ".bash_profile.tmp"
+          dst-file-path: "README.md"
           start-value: "<!-- bash_profile_start -->"
           end-value: "<!-- bash_profile_end -->"
