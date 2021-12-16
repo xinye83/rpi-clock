@@ -31,7 +31,7 @@ Automatically start the GUI without mouse pointer on startup. Create or open
 ```bash
 if [ -z $DISPLAY ] && [ $(tty) = /dev/tty1 ]
 then
-  startx -- -nocursor
+    startx -- -nocursor
 fi
 ```
 
@@ -45,21 +45,21 @@ xset s noblank
 
 unclutter &
 chromium-browser https://yourfancywebsite.com \
-  --window-size=1280,400 \
-  --window-position=0,0 \
-  --start-fullscreen \
-  --kiosk \
-  --incognito \
-  --noerrdialogs \
-  --disable-translate \
-  --no-first-run \
-  --fast \
-  --fast-start \
-  --disable-infobars \
-  --disable-features=TranslateUI \
-  --disk-cache-dir=/dev/null \
-  --overscroll-history-navigation=0 \
-  --disable-pinch
+    --window-size=1280,400 \
+    --window-position=0,0 \
+    --start-fullscreen \
+    --kiosk \
+    --incognito \
+    --noerrdialogs \
+    --disable-translate \
+    --no-first-run \
+    --fast \
+    --fast-start \
+    --disable-infobars \
+    --disable-features=TranslateUI \
+    --disk-cache-dir=/dev/null \
+    --overscroll-history-navigation=0 \
+    --disable-pinch
 ```
 
 *Most of the instructions are from
