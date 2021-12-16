@@ -3,6 +3,9 @@ name: Update README.md
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'config/.bash_profile'
+      - 'config/.xinitrc'
 
   workflow_dispatch:
 
