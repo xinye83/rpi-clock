@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[[ -z $(grep BCM2711 /proc/cpuinfo) ]] && echo "You are not on a RPi!" && exit 1
+
+cd $(git rev-parse --git-dir)/rpi-config
+
+echo "Installing configuration files..."
+ln -s ~/.bash_profile .bash_profile
+ln -s ~/.xinitrc .xinitrc
+echo "Done!"
