@@ -5,7 +5,7 @@ xset s off
 xset s noblank
 
 unclutter &
-chromium-browser https://yourfancywebsite.com \
+chromium-browser https://xinye83.github.io \
     --window-size=1280,400 \
     --window-position=0,0 \
     --start-fullscreen \
@@ -20,4 +20,5 @@ chromium-browser https://yourfancywebsite.com \
     --disable-features=TranslateUI \
     --disk-cache-dir=/dev/null \
     --overscroll-history-navigation=0 \
-    --disable-pinch
+    --disable-pinch \
+    --enable-features=OverlayScrollbar # smaller than default scrollbar
