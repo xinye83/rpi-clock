@@ -16,7 +16,7 @@ jobs:
       - name: Prepare .bash_profile for replacer
         run: |
           echo "\`\`\`bash" > .bash_profile.tmp
-          echo config/.bash_profile >> .bash_profile.tmp
+          cat config/.bash_profile >> .bash_profile.tmp
           echo "\`\`\`" >> .bash_profile.tmp
 
       - name: Update README.md with config/.bash_profile
