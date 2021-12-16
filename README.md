@@ -28,15 +28,18 @@ sudo raspi-config
 Automatically start the GUI without mouse pointer on startup. Create or open
 `/home/pi/.bash_profile` and add the following code to it.
 
+<!-- bash_profile_start -->
 ```bash
 if [ -z $DISPLAY ] && [ $(tty) = /dev/tty1 ]
 then
     startx -- -nocursor
 fi
 ```
+<!-- bash_profile_end -->
 
 Lastly, setup `/home/pi/.xinitrc` to run Chromium when you run `startx`.
 
+<!-- xinitrc_start -->
 ```bash
 #!/usr/bin/env sh
 xset -dpms
@@ -61,6 +64,7 @@ chromium-browser https://yourfancywebsite.com \
     --overscroll-history-navigation=0 \
     --disable-pinch
 ```
+<!-- xinitrc_end -->
 
 *Most of the instructions are from
 [this](https://blog.r0b.io/post/minimal-rpi-kiosk/) blog post.*
