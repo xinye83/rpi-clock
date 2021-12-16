@@ -2,28 +2,32 @@
 
 A playground for my own Raspberry Pi project.
 
-## Setup
+## My Setup
 
 Raspberry Pi 4 Model B - 4GB RAM
 
 [7.9" LCD Display](https://www.waveshare.com/7.9inch-hdmi-lcd.htm)
 
-## How-To
-
-### Boot to kiosk mode
+## Boot to Kiosk Mode
 
 Start with RPi OS Lite, install the following packages.
+
 ```bash
-sudo apt-get install --no-install-recommends xserver-xorg-video-all xserver-xorg-input-all xserver-xorg-core xinit x11-xserver-utils chromium-browser unclutter
+sudo apt-get install --no-install-recommends xserver-xorg-video-all \
+    xserver-xorg-input-all xserver-xorg-core xinit x11-xserver-utils \
+    chromium-browser unclutter
 ```
 
 Config RPi to boot directly into console.
+
 ```bash
 sudo raspi-config
 # 1 System Options > S5 Boot / Auto Login > B2 Console Autologin
 ```
 
-Automatically start the GUI without mouse pointer on startup. Create or open `/home/pi/.bash_profile` and add the following code to it.
+Automatically start the GUI without mouse pointer on startup. Create or open
+`/home/pi/.bash_profile` and add the following code to it.
+
 ```bash
 if [ -z $DISPLAY ] && [ $(tty) = /dev/tty1 ]
 then
@@ -32,7 +36,8 @@ fi
 ```
 
 Lastly, setup `/home/pi/.xinitrc` to run Chromium when you run `startx`.
-```
+
+```bash
 #!/usr/bin/env sh
 xset -dpms
 xset s off
@@ -57,4 +62,5 @@ chromium-browser https://yourfancywebsite.com \
   --disable-pinch
 ```
 
-*Most of the instructions are from [this](https://blog.r0b.io/post/minimal-rpi-kiosk/) blog post.*
+*Most of the instructions are from
+[this](https://blog.r0b.io/post/minimal-rpi-kiosk/) blog post.*
