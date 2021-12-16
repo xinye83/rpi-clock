@@ -30,8 +30,13 @@ Automatically start the GUI without mouse pointer on startup. Create or open
 
 <!-- bash_profile_start -->
 ```bash
-if [ -z $DISPLAY ] && [ $(tty) = /dev/tty1 ]
-then
+#!/bin/bash
+
+if [[ -f ~/.bashrc ]]; then
+    source ~/.bashrc
+fi
+
+if [[ -z $DISPLAY && $(tty) = /dev/tty1 ]]; then
     startx -- -nocursor
 fi
 ```
