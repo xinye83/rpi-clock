@@ -12,6 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - uses: actions/setup-python@v2
         with:
@@ -20,3 +23,10 @@ jobs:
 
       - name: Update readme
         run: python ./.github/actions/update_readme.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.name "Xin Ye"
+          git config --local user.email "yexinwhu@gmail.com"
+          git commit -m "update-readme action" -a
+          git push
