@@ -4,8 +4,8 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'config/.bash_profile'
-      - 'config/.xinitrc'
+      - 'rpi-config/.bash_profile'
+      - 'rpi-config/.xinitrc'
 
   workflow_dispatch:
 

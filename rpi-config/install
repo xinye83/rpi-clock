@@ -4,7 +4,7 @@
 
 echo "Installing configuration files..."
 
-DIR=$(git rev-parse --show-toplevel)/config
+DIR=$(git rev-parse --show-toplevel)/rpi-config
 
 if [[ -e ~/.bash_profile || -h ~/.bash_profile ]]; then
     rm -f ~/.bash_profile

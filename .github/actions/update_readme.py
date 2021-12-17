@@ -15,7 +15,7 @@ with open(workspace + "/README.md", "r") as f:
 
 # update bash_history section
 
-with open(workspace + "/config/.bash_profile") as f:
+with open(workspace + "/rpi-config/.bash_profile") as f:
     bash_profile = f.read()
 
 start = "<!-- bash_profile_start -->\n```bash\n"
@@ -27,7 +27,7 @@ readme = re.sub(
 
 # update xinitrc section
 
-with open(workspace + "/config/.xinitrc") as f:
+with open(workspace + "/rpi-config/.xinitrc") as f:
     xinitrc = f.read()
 
 start = "<!-- xinitrc_start -->\n```bash\n"
