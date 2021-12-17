@@ -19,3 +19,9 @@ body {
     font-family: Orbitron;
     letter-spacing: 8px;
 }
+
+/* diable selection hightlighting */
+::selection {
+    color: none;
+    background: none;
+}
