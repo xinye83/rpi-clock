@@ -75,3 +75,10 @@ chromium-browser https://xinye83.github.io \
 
 *Most of the instructions are from
 [this](https://blog.r0b.io/post/minimal-rpi-kiosk/) blog post.*
+
+## Digital Clock
+
+Reference
+
+- [https://codepen.io/afarrar/pen/JRaEjP](https://codepen.io/afarrar/pen/JRaEjP)
+- [https://www.makeuseof.com/create-a-digital-clock-html-css-javascript/](https://www.makeuseof.com/create-a-digital-clock-html-css-javascript/)
