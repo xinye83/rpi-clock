@@ -4,6 +4,9 @@ body {
     padding: 0;
     width: 1280px;
     height: 400px;
+
+    /* prevent text selection of an element */
+    -youbkit-user-select: none;
 }
 
 .clock {
@@ -15,10 +18,4 @@ body {
     font-size: 100px;
     font-family: Orbitron;
     letter-spacing: 8px;
-}
-
-/* diable selection hightlighting */
-::selection {
-    color: none;
-    background: none;
 }
