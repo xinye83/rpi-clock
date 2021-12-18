@@ -16,8 +16,8 @@ body {
     transform: translateX(-50%) translateY(-50%);
     color: white;
     font-size: 100px;
-    font-family: Orbitron;
-    letter-spacing: 8px;
+    font-family: 'Digital-7 Mono';
+    letter-spacing: 5px;
 }
 
 /* diable selection hightlighting */
