@@ -18,8 +18,8 @@ with open(workspace + "/README.md", "r") as f:
 with open(workspace + "/rpi-config/.bash_profile") as f:
     bash_profile = f.read()
 
-start = "<!-- bash_profile_start -->\n```bash\n"
-end = "```\n<!-- bash_profile_end -->"
+start = "<!-- bash_profile_start -->\n\n```bash\n"
+end = "```\n\n<!-- bash_profile_end -->"
 
 readme = re.sub(
     start + ".*?" + end, start + bash_profile + end, readme, count=1, flags=re.DOTALL
@@ -30,8 +30,8 @@ readme = re.sub(
 with open(workspace + "/rpi-config/.xinitrc") as f:
     xinitrc = f.read()
 
-start = "<!-- xinitrc_start -->\n```bash\n"
-end = "```\n<!-- xinitrc_end -->"
+start = "<!-- xinitrc_start -->\n\n```bash\n"
+end = "```\n\n<!-- xinitrc_end -->"
 
 readme = re.sub(
     start + ".*?" + end, start + xinitrc + end, readme, count=1, flags=re.DOTALL
