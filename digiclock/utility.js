@@ -52,6 +52,3 @@ function showDate() {
 
     setTimeout(showDate, 1000)
 }
-
-showTime()
-showDate()
