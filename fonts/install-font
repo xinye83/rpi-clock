@@ -1,0 +1,13 @@
+#!/bin/bash
+
+[[ -z $(grep BCM2711 /proc/cpuinfo) ]] && echo "You are not on a RPi!" && exit 1
+
+echo "Installing fonts..."
+
+DIR=$(git rev-parse --show-toplevel)/fonts
+
+[[ ! -e ~/.local/share/fonts ]] && mkdir ~/.local/share/fonts
+cp -f $DIR/* ~/.local/share/fonts/
+fc-cache -f -v
+
+echo "Done!"
