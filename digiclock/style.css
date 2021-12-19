@@ -1,30 +1,3 @@
-body {
-    background: black;
-    margin: 0;
-    padding: 0;
-    width: 1280px;
-    height: 400px;
-
-    /* prevent text selection of an element */
-    -youbkit-user-select: none;
-}
-
-.clock {
-    position: fixed;
-    margin: 0;
-    padding: 0;
-    top: 200px;
-    left: 640px;
-    transform: translateX(-50%) translateY(-50%);
-    color: white;
-    font-size: 200px;
-    font-family: 'Digital-7 Mono';
-    letter-spacing: 5px;
-
-    /* TODO: remove this later */
-    border: 1px solid white;
-}
-
 /* diable selection hightlighting */
 ::selection {
     color: none;
