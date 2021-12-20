@@ -93,5 +93,5 @@ function showWeather() {
             'weather-icon wi ' + iconClass
     })
 
-    setTimeout(showWeather, 300000)
+    setTimeout(showWeather, 120000)
 }
