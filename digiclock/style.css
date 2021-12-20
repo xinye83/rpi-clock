@@ -1,3 +1,52 @@
+body {
+    background: black;
+    margin: 0;
+    padding: 0;
+    width: 1280px;
+    height: 400px;
+    -youbkit-user-select: none;
+}
+
+.clock {
+    position: absolute;
+    top: 200px;
+    left: 640px;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 150px;
+    font-family: 'IBM Plex Mono';
+    letter-spacing: -5px;
+}
+
+.date {
+    position: absolute;
+    bottom: 70px;
+    left: 640px;
+    transform: translate(-50%, +50%);
+    font-family: 'Fugaz One';
+    color: white;
+    font-size: 40px;
+}
+
+.temperature {
+    position: relative;
+    top: 20px;
+    left: 40px;
+    font-family: 'Fugaz One';
+    color: white;
+    font-size: 40px;
+    float: left;
+}
+
+.weather-icon {
+    position: relative;
+    top: 25px;
+    left: 62px;
+    color: white;
+    font-size: 45px;
+    float: left;
+}
+
 /* diable selection hightlighting */
 ::selection {
     color: none;

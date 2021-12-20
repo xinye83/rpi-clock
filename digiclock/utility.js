@@ -64,9 +64,9 @@ function showWeather() {
 
         var temp = Math.floor(data['main']['temp'])
 
-        document.getElementById('weather').innerText =
+        document.getElementById('temperature').innerText =
             temp.toString() + '\u00B0F'
-        document.getElementById('weather').textContent =
+        document.getElementById('temperature').textContent =
             temp.toString() + '\u00B0F'
 
         /* weather icon */
@@ -76,7 +76,7 @@ function showWeather() {
         var sunset = data['sys']['sunset']
         var shift = data['timezone']
 
-        var iconClass = 'wi wi-owm-'
+        var iconClass = 'wi-owm-'
 
         if (
             Date.now() >= (sunrise + shift) * 1000 &&
@@ -89,12 +89,8 @@ function showWeather() {
 
         iconClass += '-' + weatherID.toString()
 
-        var icon = document.createElement('i')
-        icon.className = iconClass
-        icon.style.cssText =
-            'position: relative;top: 0;left: 10px;color: white;font-size: 59px;float: left;border: 1px solid white;'
-
-        document.body.appendChild(icon)
+        document.getElementById('weather-icon').className =
+            'weather-icon wi ' + iconClass
     })
 
     setTimeout(showWeather, 300000)

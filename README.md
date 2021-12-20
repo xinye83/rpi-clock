@@ -130,5 +130,5 @@ Reference
 
 Reference
 
--   [OpenWeatherMap](https://openweathermap.org/)
+-   [OpenWeather](https://openweathermap.org/)
 -   [erikflowers/weather-icons](https://github.com/erikflowers/weather-icons)
