@@ -74,16 +74,14 @@ function showWeather() {
         var weatherID = data['weather'][0]['id']
         var sunrise = data['sys']['sunrise']
         var sunset = data['sys']['sunset']
-        var shift = data['timezone']
 
         var iconClass = 'wi-owm-'
 
-        if (
-            Date.now() >= (sunrise + shift) * 1000 &&
-            Date.now() <= (sunset + shift) * 1000
-        ) {
+        if (Date.now() >= sunrise * 1000 && Date.now() <= sunset * 1000) {
+            console.log('day')
             iconClass += 'day'
         } else {
+            console.log('night')
             iconClass += 'night'
         }
 
