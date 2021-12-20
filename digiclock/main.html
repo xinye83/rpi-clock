@@ -5,6 +5,17 @@
         <meta charset="utf-8" />
         <title>Digital Clock</title>
         <link rel="stylesheet" href="style.css" type="text/css" />
+        <link
+            rel="stylesheet"
+            href="weather-icons/css/weather-icons.css"
+            type="text/css"
+        />
+        <link
+            rel="stylesheet"
+            href="weather-icons/css/weather-icons-wind.css"
+            type="text/css"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body
         style="
@@ -17,7 +28,7 @@
             /* prevent text selection of an element */
             -youbkit-user-select: none;
         "
-        onload="showTime();showDate()"
+        onload="showTime();showDate();showWeather();"
     >
         <div
             id="clock"
@@ -44,6 +55,20 @@
                 font-size: 40px;
             "
         ></div>
+        <div
+            id="weather"
+            style="
+                position: relative;
+                top: 0;
+                left: 0;
+                font-family: 'Fugaz One';
+                color: white;
+                font-size: 40px;
+                float: left;
+                border: 1px solid white;
+            "
+        ></div>
     </body>
+    <script type="text/javascript" src="apikey.json"></script>
     <script src="utility.js"></script>
 </html>

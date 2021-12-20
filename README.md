@@ -125,3 +125,10 @@ Reference
 
 -   [https://codepen.io/afarrar/pen/JRaEjP](https://codepen.io/afarrar/pen/JRaEjP)
 -   [https://www.makeuseof.com/create-a-digital-clock-html-css-javascript/](https://www.makeuseof.com/create-a-digital-clock-html-css-javascript/)
+
+## Weather
+
+Reference
+
+-   [OpenWeatherMap](https://openweathermap.org/)
+-   [erikflowers/weather-icons](https://github.com/erikflowers/weather-icons)
