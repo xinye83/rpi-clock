@@ -20,8 +20,10 @@
     <body onload="showTime();showDate();showWeather();">
         <div id="clock" class="clock"></div>
         <div id="date" class="date"></div>
-        <div id="temperature" class="temperature"></div>
-        <i id="weather-icon"></i>
+        <div style="position: absolute; top: 40px; left: 60px">
+            <div id="temperature" class="temperature"></div>
+            <i id="weather-icon"></i>
+        </div>
     </body>
     <script type="text/javascript" src="apikey.json"></script>
     <script src="utility.js"></script>

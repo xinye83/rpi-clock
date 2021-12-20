@@ -20,7 +20,7 @@ body {
 
 .date {
     position: absolute;
-    bottom: 70px;
+    bottom: 90px;
     left: 640px;
     transform: translate(-50%, +50%);
     font-family: 'Fugaz One';
@@ -30,8 +30,8 @@ body {
 
 .temperature {
     position: relative;
-    top: 20px;
-    left: 40px;
+    top: 0;
+    left: 0;
     font-family: 'Fugaz One';
     color: white;
     font-size: 40px;
@@ -40,15 +40,14 @@ body {
 
 .weather-icon {
     position: relative;
-    top: 25px;
-    left: 62px;
+    top: 4px;
+    left: 15px;
     color: white;
-    font-size: 45px;
+    font-size: 47px;
     float: left;
 }
 
 /* diable selection hightlighting */
 ::selection {
-    color: none;
     background: none;
 }
