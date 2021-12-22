@@ -10,20 +10,16 @@
             href="weather-icons/css/weather-icons.css"
             type="text/css"
         />
-        <link
-            rel="stylesheet"
-            href="weather-icons/css/weather-icons-wind.css"
-            type="text/css"
-        />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
-    <body onload="showTime();showDate();showWeather();">
+    <body onload="showTime(); showDate(); showWeather();">
         <div id="clock" class="clock"></div>
         <div id="date" class="date"></div>
-        <div style="position: absolute; top: 40px; left: 60px">
+        <div id="weather" style="position: absolute; top: 40px; left: 60px">
             <div id="temperature" class="temperature"></div>
             <i id="weather-icon"></i>
         </div>
+        <div id="horizon" class="horizon"></div>
     </body>
     <script type="text/javascript" src="apikey.json"></script>
     <script src="utility.js"></script>
