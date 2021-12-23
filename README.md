@@ -141,6 +141,4 @@ For the sun, I found [solar zenith angle](https://en.wikipedia.org/wiki/Solar_ze
 
 The basic equation to compute the solar altitude angle is
 
-<!-- ![equation](<https://latex.codecogs.com/svg.image?%5Csin(%5Calpha)=%5Csin(%5CPhi)%5Csin(%5Cdelta)+%5Ccos(%5CPhi)%5Ccos(%5Cdelta)%5Ccos(h)>) -->
-
-<img src="https://latex.codecogs.com/svg.image?\sin(\alpha)=\sin(\Phi)\sin(\delta)&plus;\cos(\Phi)\cos(\delta)\cos(h)" title="\sin(\alpha)=\sin(\Phi)\sin(\delta)+\cos(\Phi)\cos(\delta)\cos(h)" />
+<img src="https://latex.codecogs.com/svg.image?\bg_white&space;\sin(\alpha)=\sin(\Phi)\sin(\delta)&plus;\cos(\Phi)\cos(\delta)\cos(h)" title="\bg_white \sin(\alpha)=\sin(\Phi)\sin(\delta)+\cos(\Phi)\cos(\delta)\cos(h)" />
