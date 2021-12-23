@@ -133,6 +133,13 @@ Reference
 -   [OpenWeather](https://openweathermap.org/)
 -   [erikflowers/weather-icons](https://github.com/erikflowers/weather-icons)
 
-## Solor Zenith Angle
+## Sun/Moon Positions
 
-I want to show some kind of position of the sun and moon at any given time of the day on my clock. For the sun, I found [solar zenith angle](https://en.wikipedia.org/wiki/Solar_zenith_angle) which is the angle between the sun’s rays and the vertical direction. Also solar altitude angle, the angle between the sun’s rays and a horizontal plane. Equations can be found from [NOAA](https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF).
+I want to show some kind of position of the sun and moon at any given time of the day on my clock.
+
+For the sun, I found [solar zenith angle](https://en.wikipedia.org/wiki/Solar_zenith_angle) which is the angle between the sun’s rays and the vertical direction. Also solar altitude angle, the angle between the sun’s rays and a horizontal plane. Equations can be found from [NOAA](https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF).
+
+The basic equation to compute the solar altitude angle is
+![equation](<https://latex.codecogs.com/svg.image?%5Csin(%5Calpha)=%5Csin(%5CPhi)%5Csin(%5Cdelta)+%5Ccos(%5CPhi)%5Ccos(%5Cdelta)%5Ccos(h)>)
+
+<!-- <img src="https://latex.codecogs.com/svg.image?\sin(\alpha)=\sin(\Phi)\sin(\delta)&plus;\cos(\Phi)\cos(\delta)\cos(h)" title="\sin(\alpha)=\sin(\Phi)\sin(\delta)+\cos(\Phi)\cos(\delta)\cos(h)" /> -->
