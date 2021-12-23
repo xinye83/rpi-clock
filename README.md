@@ -135,12 +135,16 @@ Reference
 
 ## Sun/Moon Positions
 
-I want to show some kind of position of the sun and moon at any given time of the day on my clock.
+I want to show some kind of position of the Sun and Moon at any given time of the day on my clock. Such information can be found at [suncalc.org](https://www.suncalc.org/) and [mooncalc.org](https://www.mooncalc.org/).
 
-For the sun, I found [solar zenith angle](https://en.wikipedia.org/wiki/Solar_zenith_angle) which is the angle between the sun’s rays and the vertical direction. Also solar altitude angle, the angle between the sun’s rays and a horizontal plane. Equations can be found from [NOAA](https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF).
+For the Sun, I found [solar zenith angle](https://en.wikipedia.org/wiki/Solar_zenith_angle) which is the angle between the sun’s rays and the vertical direction. Also solar altitude angle, the angle between the sun’s rays and a horizontal plane.
 
-The basic equation to compute the solar altitude angle is
+The basic equation to compute the solar altitude angle (alpha) is
 
 <p align="center">
-    <img src="https://latex.codecogs.com/svg.image?\sin(\alpha)=\sin(\Phi)\sin(\delta)&plus;\cos(\Phi)\cos(\delta)\cos(h)" title="\sin(\alpha)=\sin(\Phi)\sin(\delta)+\cos(\Phi)\cos(\delta)\cos(h)" />
+    <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/34a7c9c9d284efb5d263adcff2518505924b1727" />
 </p>
+
+-   The local latitude (capital phi) is about 44.76 in degrees for me.
+-   The current declination of the Sun (delta) can be approximated by an equation given [here](https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF).
+-   For the local hour angle (h), I decided to not compute it from scratch. Instead, I can get a very accurate solar noon time from the sunrise and sunset time from OpenWeatherMap and then compute the hour angle with it.
