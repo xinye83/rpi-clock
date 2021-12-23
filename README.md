@@ -132,3 +132,7 @@ Reference
 
 -   [OpenWeather](https://openweathermap.org/)
 -   [erikflowers/weather-icons](https://github.com/erikflowers/weather-icons)
+
+## Solor Zenith Angle
+
+I want to show some kind of position of the sun and moon at any given time of the day on my clock. For the sun, I found [solar zenith angle](https://en.wikipedia.org/wiki/Solar_zenith_angle) which is the angle between the sun’s rays and the vertical direction. Also solar altitude angle, the angle between the sun’s rays and a horizontal plane. Equations can be found from [NOAA](https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF).

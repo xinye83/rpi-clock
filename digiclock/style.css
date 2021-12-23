@@ -57,6 +57,16 @@ body {
     z-index: 8;
 }
 
+.sun-angle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    color: black;
+    z-index: 8;
+}
+
 /* diable selection hightlighting */
 ::selection {
     background: none;
