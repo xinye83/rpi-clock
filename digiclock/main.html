@@ -12,18 +12,21 @@
         />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
-    <body
-        onload="updateData(); showTime(); showDate(); showWeather(); showSunAngle();"
-    >
+    <body onload="initClock()">
         <div id="clock" class="clock">00:00:00</div>
         <div id="date" class="date">Monday, January 1</div>
         <div id="weather" style="position: absolute; top: 40px; left: 60px">
             <div id="temperature" class="temperature">0&deg;F</div>
             <i id="weather-icon" class="weather-icon wi wi-day-sunny"></i>
         </div>
+        <div id="horizon" class="horizon"></div>
         <div id="sun" style="position: absolute">
-            <div id="horizon" class="horizon"></div>
-            <div id="sun-arc" class="sun-arc"></div>
+            <canvas
+                id="sun-arc"
+                class="sun-arc"
+                height="400"
+                width="1280"
+            ></canvas>
             <i id="sun-angle" class="sun-angle wi wi-day-sunny"></i>
         </div>
     </body>

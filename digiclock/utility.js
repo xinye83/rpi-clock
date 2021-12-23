@@ -9,6 +9,18 @@ const kMaxSunAnglePixel = 200
 
 var openWeatherData
 
+/**
+ * Initialize all elements of the digital clock when the page is loaded
+ */
+function initClock() {
+    updateData()
+    showTime()
+    showDate()
+    showWeather()
+    showSunAngle()
+    drawSunArc()
+}
+
 function updateData() {
     // pull data from OpenWeather API every 120 seconds
     setTimeout(updateData, 120000)
@@ -19,6 +31,13 @@ function updateData() {
     $.getJSON(openWeatherAPI, function (data) {
         openWeatherData = data
     })
+
+    // re-draw sun path when the data has been updated for the first time
+    // in a day
+    var today = new Date()
+    if (today.getHours() == 0 && today.getMinutes() < 2) {
+        drawSunArc()
+    }
 }
 
 function showTime() {
@@ -112,10 +131,39 @@ function showWeather() {
 }
 
 /**
- * Show sun arc between sunrise and sunset
- * TODO: extend to night
+ * Draw sun path of today on the screen
  */
-function showSunArc() {}
+function drawSunArc() {
+    if (!openWeatherData) {
+        setTimeout(drawSunArc, 1000)
+        return
+    }
+
+    const ctx = document.getElementById('sun-arc').getContext('2d')
+
+    ctx.strokeStyle = 'white'
+    ctx.lineWidth = 1
+
+    ctx.beginPath()
+
+    // interpolate the sun path every 10 minutes
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 10) {
+            var angle = calculateSunAngle(hour, minute, 0)
+
+            var x = Math.floor(((hour * 60 + minute) / 9) * 8)
+            var y = 200 - Math.floor((angle / 90) * kMaxSunAnglePixel)
+
+            if (hour == 0 && minute == 0) {
+                ctx.moveTo(x, y)
+            } else {
+                ctx.lineTo(x, y)
+            }
+        }
+    }
+
+    ctx.stroke()
+}
 
 function showSunAngle() {
     if (!openWeatherData) {
@@ -132,17 +180,17 @@ function showSunAngle() {
         today.getSeconds()
     )
 
-    var x = Math.floor(
+    var left = Math.floor(
         ((today.getHours() * 3600 +
             today.getMinutes() * 60 +
             today.getSeconds()) /
             86400) *
             1280
     )
-    var y = Math.floor(200 - (kMaxSunAnglePixel * sunAngle) / 90)
+    var top = Math.floor(200 - (kMaxSunAnglePixel * sunAngle) / 90)
 
-    document.getElementById('sun-angle').style.left = x.toString() + 'px'
-    document.getElementById('sun-angle').style.top = y.toString() + 'px'
+    document.getElementById('sun-angle').style.left = left.toString() + 'px'
+    document.getElementById('sun-angle').style.top = top.toString() + 'px'
     document.getElementById('sun-angle').style.color = 'yellow'
 }
 

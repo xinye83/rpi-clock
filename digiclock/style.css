@@ -21,9 +21,9 @@ body {
 
 .date {
     position: absolute;
-    bottom: 90px;
     left: 640px;
-    transform: translate(-50%, +50%);
+    top: 310px;
+    transform: translate(-50%, -50%);
     font-family: 'Fugaz One';
     color: white;
     font-size: 40px;
@@ -54,17 +54,18 @@ body {
     width: 1280px;
     border-bottom: 2px dashed white;
     opacity: 0.5;
-    z-index: 8;
+    z-index: 4;
 }
 
 .sun-angle {
     position: absolute;
-    top: 0;
-    left: 0;
     transform: translate(-50%, -50%);
     font-size: 40px;
-    color: black;
     z-index: 8;
+}
+
+.sun-arc {
+    z-index: 6;
 }
 
 /* diable selection hightlighting */
