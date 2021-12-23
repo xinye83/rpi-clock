@@ -146,13 +146,15 @@ function drawSunArc() {
 
     ctx.beginPath()
 
+    var angle, x, y
+
     // interpolate the sun path every 10 minutes
     for (let hour = 0; hour < 24; hour++) {
         for (let minute = 0; minute < 60; minute += 10) {
-            var angle = calculateSunAngle(hour, minute, 0)
+            angle = calculateSunAngle(hour, minute, 0)
 
-            var x = Math.floor(((hour * 60 + minute) / 9) * 8)
-            var y = 200 - Math.floor((angle / 90) * kMaxSunAnglePixel)
+            x = Math.floor(((hour * 60 + minute) / 9) * 8)
+            y = 200 - Math.floor((angle / 90) * kMaxSunAnglePixel)
 
             if (hour == 0 && minute == 0) {
                 ctx.moveTo(x, y)
@@ -161,6 +163,12 @@ function drawSunArc() {
             }
         }
     }
+
+    angle = calculateSunAngle(23, 59, 59)
+    x = 1280
+    y = 200 - Math.floor((angle / 90) * kMaxSunAnglePixel)
+
+    ctx.lineTo(x, y)
 
     ctx.stroke()
 }
