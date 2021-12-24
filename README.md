@@ -135,7 +135,11 @@ Reference
 
 ## Sun/Moon Positions
 
-I want to show some kind of position of the Sun and Moon at any given time of the day on my clock. Such information can be found at [suncalc.org](https://www.suncalc.org/) and [mooncalc.org](https://www.mooncalc.org/).
+I want to show some kind of position of the Sun and Moon at any given time of the day on my clock. Such information can be found at
+
+-   [suncalc.org](https://www.suncalc.org/)
+-   [mooncalc.org](https://www.mooncalc.org/)
+-   [timeanddate.com](https://www.timeanddate.com/)
 
 For the Sun, I found [solar zenith angle](https://en.wikipedia.org/wiki/Solar_zenith_angle) which is the angle between the sun’s rays and the vertical direction. Also solar altitude angle, the angle between the sun’s rays and a horizontal plane.
 
@@ -148,3 +152,7 @@ The basic equation to compute the solar altitude angle (alpha) is
 -   The local latitude (capital phi) is about 44.76 in degrees for me.
 -   The current declination of the Sun (delta) can be approximated by an equation given [here](https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF).
 -   For the local hour angle (h), I decided to not compute it from scratch. Instead, I can get a very accurate solar noon time from the sunrise and sunset time from OpenWeatherMap and then compute the hour angle with it.
+
+For the Moon, there are similar terms like zenith/altitude angles but looks like they are much harder to compute accurately. The following is a quote from [this](https://airmass.org/notes) page:
+
+> A really precise calculation of the Moon's position requires the calculation of hundreds of periodic terms to account for all the myriad gravitational forces acting on the Moon. Meeus gives a simplified set of calculations in chapter 45 of _Astronomical Algorithms_, with 59 periodic terms in longitude and 30 in latitude.
