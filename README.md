@@ -68,25 +68,15 @@ sudo raspi-config
 Automatically start the GUI without mouse pointer on startup. Create or open
 `/home/pi/.bash_profile` and add the following code to it.
 
-<!-- bash_profile_start -->
-
 ```bash
 #!/bin/bash
-
-if [[ -f ~/.bashrc ]]; then
-    source ~/.bashrc
-fi
 
 if [[ -z $DISPLAY && $(tty) = /dev/tty1 ]]; then
     startx -- -nocursor
 fi
 ```
 
-<!-- bash_profile_end -->
-
 Lastly, setup `/home/pi/.xinitrc` to run Chromium when you run `startx`.
-
-<!-- xinitrc_start -->
 
 ```bash
 #!/bin/bash
@@ -114,8 +104,6 @@ chromium-browser /home/pi/rpi-playground/digiclock/main.html \
     --disable-pinch \
     --enable-features=OverlayScrollbar # smaller than default scrollbar
 ```
-
-<!-- xinitrc_end -->
 
 _Most of the instructions are from [this](https://blog.r0b.io/post/minimal-rpi-kiosk/) blog post._
 
@@ -156,3 +144,29 @@ The basic equation to compute the solar altitude angle (alpha) is
 For the Moon, there are similar terms like zenith/altitude angles but looks like they are much harder to compute accurately. The following is a quote from [this](https://airmass.org/notes) page:
 
 > A really precise calculation of the Moon's position requires the calculation of hundreds of periodic terms to account for all the myriad gravitational forces acting on the Moon. Meeus gives a simplified set of calculations in chapter 45 of _Astronomical Algorithms_, with 59 periodic terms in longitude and 30 in latitude.
+
+## Skyfield and Flask
+
+It turns out that there exists a Python library called [Skyfield](https://rhodesmill.org/skyfield/) that computes positions of stars or planets to a very high accuracy. For example, the following code computes the Sun altitude at the U.S. Bank Stadium (44.97425047849998, -93.25732030666656) at noon on 2021 Christmas Day (18:00:00 UTC).
+
+```python
+from skyfield.api import wgs84, load
+
+planets = load("de421.bsp")
+ts = load.timescale()
+
+earth = planets["earth"]
+sun = planets["sun"]
+
+local = earth + wgs84.latlon(44.97425047849998, -93.25732030666656)
+altitude, _, _ = (
+    local.at(ts.utc(2021, 12, 25, 18, 0, 0))
+    .observe(sun)
+    .apparent()
+    .altaz()
+)
+
+print(altitude.degrees)
+```
+
+I decided to replace my own algorithm to compute the Sun altitude mentioned in previous section (RIP) by using Skyfield and also do the same for Moon position. This means I have to run Python code to update certain elements on the webpage. Since html or the javascript code on the client side cannot access the local file system directly, there must be a local http server that hosts the digiclock webpage and also execute the Python code on request. This leads me to [Flask](https://flask.palletsprojects.com/en/2.0.x/).
