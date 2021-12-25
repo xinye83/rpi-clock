@@ -5,7 +5,7 @@ xset s off
 xset s noblank
 
 unclutter &
-chromium-browser /home/pi/rpi-playground/digiclock/main.html \
+chromium-browser http://127.0.0.1:5000/index \
     --window-size=1280,400 \
     --window-position=0,0 \
     --start-fullscreen \
