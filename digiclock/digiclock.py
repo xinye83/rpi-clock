@@ -1,20 +1,65 @@
 from flask import Flask, render_template, request
 from skyfield.api import wgs84, load
+from datetime import datetime, timezone, timedelta
+import json
 
 app = Flask(__name__)
 
-
-@app.route("/index")
-def index():
-    return render_template("index.html")
-
+planets = load("de421.bsp")
+ts = load.timescale()
 
 targets = ["sun", "moon"]
 
 
-@app.route("/calculate-altitude")
-def calculate_altitude():
-    planet = request.args.get("planet", default="sun", type=str)
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/get-path")
+def get_path():
+    planet = request.args.get("planet", default=None, type=str)
+    if planet not in targets:
+        return ""
+
+    latitude = request.args.get("latitude", default=None, type=float)
+    longitude = request.args.get("longitude", default=None, type=float)
+
+    now = datetime.now()
+
+    start = datetime.fromtimestamp(
+        datetime(now.year, now.month, now.day).timestamp(), tz=timezone.utc
+    )
+    end = datetime.fromtimestamp(
+        (datetime(now.year, now.month, now.day) + timedelta(days=1)).timestamp(),
+        tz=timezone.utc,
+    )
+
+    curr = start
+    path = []
+
+    while curr <= end:
+        path.append(
+            calculate_altitude(
+                planet,
+                latitude,
+                longitude,
+                curr.year,
+                curr.month,
+                curr.day,
+                curr.hour,
+                curr.minute,
+                curr.second,
+            )
+        )
+        curr += timedelta(minutes=10)
+
+    return json.dumps(path)
+
+
+@app.route("/get-altitude")
+def get_altitude():
+    planet = request.args.get("planet", default=None, type=str)
 
     if planet not in targets:
         return ""
@@ -30,9 +75,19 @@ def calculate_altitude():
     latitude = request.args.get("latitude", default=None, type=float)
     longitude = request.args.get("longitude", default=None, type=float)
 
-    planets = load("de421.bsp")
-    ts = load.timescale()
+    return str(
+        calculate_altitude(
+            planet, latitude, longitude, year, month, day, hour, minute, second
+        )
+    )
 
+
+# planet: target
+# latitude, longitude: observer location on the Earth
+# year, month, day, hour, minute, second: UTC time
+def calculate_altitude(
+    planet, latitude, longitude, year, month, day, hour, minute, second
+):
     earth = planets["earth"]
     target = planets[planet]
 
@@ -44,4 +99,4 @@ def calculate_altitude():
         .altaz()
     )
 
-    return str(altitude.degrees)
+    return altitude.degrees

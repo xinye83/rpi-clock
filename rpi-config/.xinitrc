@@ -5,7 +5,7 @@ xset s off
 xset s noblank
 
 unclutter &
-chromium-browser http://127.0.0.1:5000/index \
+chromium-browser http://127.0.0.1:5000/ \
     --window-size=1280,400 \
     --window-position=0,0 \
     --start-fullscreen \

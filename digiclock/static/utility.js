@@ -6,7 +6,6 @@ var openWeatherData = null
 function initClock() {
     updateData()
     showTime()
-    showDate()
     showWeather()
     showSunAngle()
     drawSunPath()
@@ -26,8 +25,7 @@ async function updateData() {
         openWeatherData = result
     })
 
-    // re-draw sun path when the data has been updated for the first time
-    // in a day
+    // re-draw sun & moon path at the beginning of a new day
     var today = new Date()
     if (today.getHours() == 0 && today.getMinutes() < 2) {
         drawSunPath()
@@ -39,6 +37,7 @@ async function showTime() {
     setTimeout(showTime, 1000)
 
     var today = new Date()
+
     var hour = today.getHours() // 0 - 23
     var minute = today.getMinutes() // 0 - 59
     var second = today.getSeconds() // 0 - 59
@@ -47,13 +46,9 @@ async function showTime() {
     minute = minute < 10 ? '0' + minute : minute
     second = second < 10 ? '0' + second : second
 
-    var text = hour + ':' + minute + ':' + second
-    document.getElementById('clock').innerText = text
-    document.getElementById('clock').textContent = text
-}
-
-async function showDate() {
-    setTimeout(showDate, 1000)
+    var textTime = hour + ':' + minute + ':' + second
+    document.getElementById('clock').innerText = textTime
+    document.getElementById('clock').textContent = textTime
 
     const monthNames = [
         'January',
@@ -79,15 +74,14 @@ async function showDate() {
         'Friday',
         'Saturday',
     ]
-    var today = new Date()
 
     var month = monthNames[today.getMonth()]
     var dayOfWeek = dayNames[today.getDay()]
     var dayOfMonth = today.getDate()
 
-    var text = dayOfWeek + ', ' + month + ' ' + dayOfMonth
-    document.getElementById('date').innerText = text
-    document.getElementById('date').textContent = text
+    var textDate = dayOfWeek + ', ' + month + ' ' + dayOfMonth
+    document.getElementById('date').innerText = textDate
+    document.getElementById('date').textContent = textDate
 }
 
 async function showWeather() {
@@ -129,171 +123,156 @@ async function showWeather() {
  * Draw sun path of today on the screen
  */
 async function drawSunPath() {
-    const kMaxSunAnglePixel = data['setting']['max_path_height']
+    const maxPathHeight = data['setting']['max_path_height']
 
     const ctx = document.getElementById('sun-path').getContext('2d')
-
-    ctx.strokeStyle = 'yellow'
+    ctx.strokeStyle = window
+        .getComputedStyle(document.getElementById('sun'))
+        .getPropertyValue('color')
     ctx.lineWidth = 1
 
-    ctx.beginPath()
+    const url =
+        'http://127.0.0.1:5000/get-path?' +
+        'planet=sun&latitude=' +
+        data['local']['latitude'].toString() +
+        '&longitude=' +
+        data['local']['longitude'].toString()
 
-    var angle, x, y
+    $.getJSON(url, function (sunPath) {
+        ctx.beginPath()
 
-    // interpolate the sun path every 10 minutes
-    for (let hour = 0; hour < 24; hour++) {
-        for (let minute = 0; minute < 60; minute += 10) {
-            angle = await calculateAltitude('sun', hour, minute, 0)
+        for (var i = 0; i < sunPath.length; i++) {
+            var x = Math.floor((i / (sunPath.length - 1)) * 1280)
+            var y = 200 - Math.floor((sunPath[i] / 90) * maxPathHeight)
 
-            x = Math.floor(((hour * 60 + minute) / 9) * 8)
-            y = 200 - Math.floor((angle / 90) * kMaxSunAnglePixel)
-
-            if (hour == 0 && minute == 0) {
+            if (i == 0) {
                 ctx.moveTo(x, y)
             } else {
                 ctx.lineTo(x, y)
             }
         }
-    }
 
-    angle = await calculateAltitude('sun', 23, 59, 59)
-    x = 1280
-    y = 200 - Math.floor((angle / 90) * kMaxSunAnglePixel)
-
-    ctx.lineTo(x, y)
-    ctx.stroke()
+        ctx.stroke()
+    })
 }
 
 async function showSunAngle() {
     setTimeout(showSunAngle, 120000)
 
-    var today = new Date()
-
-    var angle = await calculateAltitude(
-        'sun',
-        today.getHours(),
-        today.getMinutes(),
-        today.getSeconds()
-    )
-
-    var left = Math.floor(
-        ((today.getHours() * 3600 +
-            today.getMinutes() * 60 +
-            today.getSeconds()) /
-            86400) *
-            1280
-    )
-    var top = Math.floor(
-        200 - (data['setting']['max_path_height'] * angle) / 90
-    )
-
-    document.getElementById('sun-angle').style.left = left.toString() + 'px'
-    document.getElementById('sun-angle').style.top = top.toString() + 'px'
-}
-
-async function drawMoonPath() {
-    const kMaxMoonAnglePixel = data['setting']['max_path_height']
-
-    const ctx = document.getElementById('moon-path').getContext('2d')
-
-    ctx.strokeStyle = 'blue'
-    ctx.lineWidth = 1
-
-    ctx.beginPath()
-
-    var angle, x, y
-
-    // interpolate the sun path every 10 minutes
-    for (let hour = 0; hour < 24; hour++) {
-        for (let minute = 0; minute < 60; minute += 10) {
-            angle = await calculateAltitude('moon', hour, minute, 0)
-
-            x = Math.floor(((hour * 60 + minute) / 9) * 8)
-            y = 200 - Math.floor((angle / 90) * kMaxMoonAnglePixel)
-
-            if (hour == 0 && minute == 0) {
-                ctx.moveTo(x, y)
-            } else {
-                ctx.lineTo(x, y)
-            }
-        }
-    }
-
-    angle = await calculateAltitude('moon', 23, 59, 59)
-    x = 1280
-    y = 200 - Math.floor((angle / 90) * kMaxMoonAnglePixel)
-
-    ctx.lineTo(x, y)
-    ctx.stroke()
-}
-
-async function showMoonAngle() {
-    setTimeout(showMoonAngle, 120000)
-
-    var today = new Date()
-
-    var angle = await calculateAltitude(
-        'moon',
-        today.getHours(),
-        today.getMinutes(),
-        today.getSeconds()
-    )
-
-    var left = Math.floor(
-        ((today.getHours() * 3600 +
-            today.getMinutes() * 60 +
-            today.getSeconds()) /
-            86400) *
-            1280
-    )
-    var top = Math.floor(
-        200 - (data['setting']['max_path_height'] * angle) / 90
-    )
-
-    document.getElementById('moon-angle').style.left = left.toString() + 'px'
-    document.getElementById('moon-angle').style.top = top.toString() + 'px'
-}
-
-/**
- * Calculate altitude angle of a planet for the current day at a given time
- * and return the angle in degrees
- *
- * hour, minute and second should be in local time zone
- */
-async function calculateAltitude(planet, hour, minute, second) {
     var now = new Date()
-    var time = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        hour,
-        minute,
-        second
-    )
 
     const url =
-        'http://127.0.0.1:5000/calculate-altitude?' +
-        'planet=' +
-        planet +
-        '&year=' +
-        time.getUTCFullYear().toString() +
+        'http://127.0.0.1:5000/get-altitude?' +
+        'planet=sun&year=' +
+        now.getUTCFullYear().toString() +
         '&month=' +
-        (time.getUTCMonth() + 1).toString() +
+        (now.getUTCMonth() + 1).toString() +
         '&day=' +
-        time.getUTCDate().toString() +
+        now.getUTCDate().toString() +
         '&hour=' +
-        time.getUTCHours().toString() +
+        now.getUTCHours().toString() +
         '&minute=' +
-        time.getUTCMinutes().toString() +
+        now.getUTCMinutes().toString() +
         '&second=' +
-        time.getUTCSeconds().toString() +
+        now.getUTCSeconds().toString() +
         '&latitude=' +
         data['local']['latitude'].toString() +
         '&longitude=' +
         data['local']['longitude'].toString()
 
-    return $.ajax({
+    $.ajax({
         type: 'GET',
         url: url,
+    }).done(function (angle) {
+        var left = Math.floor(
+            (now.getHours() * 7200 +
+                now.getMinutes() * 120 +
+                now.getSeconds() * 2) /
+                135
+        )
+        var top = Math.floor(
+            200 - (data['setting']['max_path_height'] * angle) / 90
+        )
+
+        document.getElementById('sun-angle').style.left = left.toString() + 'px'
+        document.getElementById('sun-angle').style.top = top.toString() + 'px'
+    })
+}
+
+async function drawMoonPath() {
+    const maxPathHeight = data['setting']['max_path_height']
+
+    const ctx = document.getElementById('moon-path').getContext('2d')
+    ctx.strokeStyle = window
+        .getComputedStyle(document.getElementById('moon'))
+        .getPropertyValue('color')
+    ctx.lineWidth = 1
+
+    const url =
+        'http://127.0.0.1:5000/get-path?' +
+        'planet=moon&latitude=' +
+        data['local']['latitude'].toString() +
+        '&longitude=' +
+        data['local']['longitude'].toString()
+
+    $.getJSON(url, function (moonPath) {
+        ctx.beginPath()
+
+        for (var i = 0; i < moonPath.length; i++) {
+            var x = Math.floor((i / (moonPath.length - 1)) * 1280)
+            var y = 200 - Math.floor((moonPath[i] / 90) * maxPathHeight)
+
+            if (i == 0) {
+                ctx.moveTo(x, y)
+            } else {
+                ctx.lineTo(x, y)
+            }
+        }
+
+        ctx.stroke()
+    })
+}
+
+async function showMoonAngle() {
+    setTimeout(showMoonAngle, 120000)
+
+    var now = new Date()
+
+    const url =
+        'http://127.0.0.1:5000/get-altitude?' +
+        'planet=moon&year=' +
+        now.getUTCFullYear().toString() +
+        '&month=' +
+        (now.getUTCMonth() + 1).toString() +
+        '&day=' +
+        now.getUTCDate().toString() +
+        '&hour=' +
+        now.getUTCHours().toString() +
+        '&minute=' +
+        now.getUTCMinutes().toString() +
+        '&second=' +
+        now.getUTCSeconds().toString() +
+        '&latitude=' +
+        data['local']['latitude'].toString() +
+        '&longitude=' +
+        data['local']['longitude'].toString()
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+    }).done(function (angle) {
+        var left = Math.floor(
+            (now.getHours() * 7200 +
+                now.getMinutes() * 120 +
+                now.getSeconds() * 2) /
+                135
+        )
+        var top = Math.floor(
+            200 - (data['setting']['max_path_height'] * angle) / 90
+        )
+
+        document.getElementById('moon-angle').style.left =
+            left.toString() + 'px'
+        document.getElementById('moon-angle').style.top = top.toString() + 'px'
     })
 }
