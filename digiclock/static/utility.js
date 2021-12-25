@@ -14,7 +14,7 @@ function initClock() {
     drawMoonPath()
 }
 
-function updateData() {
+async function updateData() {
     // pull data from OpenWeather API every 120 seconds
     setTimeout(updateData, 120000)
 
@@ -35,7 +35,7 @@ function updateData() {
     }
 }
 
-function showTime() {
+async function showTime() {
     setTimeout(showTime, 1000)
 
     var today = new Date()
@@ -52,7 +52,7 @@ function showTime() {
     document.getElementById('clock').textContent = text
 }
 
-function showDate() {
+async function showDate() {
     setTimeout(showDate, 1000)
 
     const monthNames = [
@@ -90,7 +90,7 @@ function showDate() {
     document.getElementById('date').textContent = text
 }
 
-function showWeather() {
+async function showWeather() {
     if (!openWeatherData) {
         setTimeout(showWeather, 1000)
         return
