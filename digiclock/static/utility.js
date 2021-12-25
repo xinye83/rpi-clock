@@ -1,13 +1,4 @@
-/* Information of the current position */
-const kCityID = '5019767' // kCityID in OpenWeatherMap
-const kLatitude = 44.76401874152714 // kLatitude (in degrees)
-const kLongitude = -93.26549544983986 // kLongitude (in degrees)
-const kTimeZone = -6 // time zone relative to UTC (in hours)
-
-// maximum height of the sun on the screen (in pixels)
-const kMaxSunAnglePixel = 200
-
-var openWeatherData
+var openWeatherData = null
 
 /**
  * Initialize all elements of the digital clock when the page is loaded
@@ -18,25 +9,29 @@ function initClock() {
     showDate()
     showWeather()
     showSunAngle()
-    drawSunArc()
+    drawSunPath()
+    showMoonAngle()
+    drawMoonPath()
 }
 
 function updateData() {
     // pull data from OpenWeather API every 120 seconds
     setTimeout(updateData, 120000)
 
-    const key = apikey['OpenWeather']
-    var openWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?id=${kCityID}&&units=imperial&appid=${key}`
+    const apikey = data['api_key']['open_weather'].toString()
+    const cityid = data['local']['city_id'].toString()
+    const openWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?id=${cityid}&&units=imperial&appid=${apikey}`
 
-    $.getJSON(openWeatherAPI, function (data) {
-        openWeatherData = data
+    $.getJSON(openWeatherAPI, function (result) {
+        openWeatherData = result
     })
 
     // re-draw sun path when the data has been updated for the first time
     // in a day
     var today = new Date()
     if (today.getHours() == 0 && today.getMinutes() < 2) {
-        drawSunArc()
+        drawSunPath()
+        drawMoonPath()
     }
 }
 
@@ -133,15 +128,12 @@ function showWeather() {
 /**
  * Draw sun path of today on the screen
  */
-function drawSunArc() {
-    if (!openWeatherData) {
-        setTimeout(drawSunArc, 1000)
-        return
-    }
+async function drawSunPath() {
+    const kMaxSunAnglePixel = data['setting']['max_path_height']
 
-    const ctx = document.getElementById('sun-arc').getContext('2d')
+    const ctx = document.getElementById('sun-path').getContext('2d')
 
-    ctx.strokeStyle = 'white'
+    ctx.strokeStyle = 'yellow'
     ctx.lineWidth = 1
 
     ctx.beginPath()
@@ -151,7 +143,7 @@ function drawSunArc() {
     // interpolate the sun path every 10 minutes
     for (let hour = 0; hour < 24; hour++) {
         for (let minute = 0; minute < 60; minute += 10) {
-            angle = calculateSunAngle(hour, minute, 0)
+            angle = await calculateAltitude('sun', hour, minute, 0)
 
             x = Math.floor(((hour * 60 + minute) / 9) * 8)
             y = 200 - Math.floor((angle / 90) * kMaxSunAnglePixel)
@@ -164,25 +156,21 @@ function drawSunArc() {
         }
     }
 
-    angle = calculateSunAngle(23, 59, 59)
+    angle = await calculateAltitude('sun', 23, 59, 59)
     x = 1280
     y = 200 - Math.floor((angle / 90) * kMaxSunAnglePixel)
 
     ctx.lineTo(x, y)
-
     ctx.stroke()
 }
 
-function showSunAngle() {
-    if (!openWeatherData) {
-        setTimeout(showSunAngle, 1000)
-        return
-    } else {
-        setTimeout(showSunAngle, 120000)
-    }
+async function showSunAngle() {
+    setTimeout(showSunAngle, 120000)
 
     var today = new Date()
-    var sunAngle = calculateSunAngle(
+
+    var angle = await calculateAltitude(
+        'sun',
         today.getHours(),
         today.getMinutes(),
         today.getSeconds()
@@ -195,71 +183,117 @@ function showSunAngle() {
             86400) *
             1280
     )
-    var top = Math.floor(200 - (kMaxSunAnglePixel * sunAngle) / 90)
+    var top = Math.floor(
+        200 - (data['setting']['max_path_height'] * angle) / 90
+    )
 
     document.getElementById('sun-angle').style.left = left.toString() + 'px'
     document.getElementById('sun-angle').style.top = top.toString() + 'px'
-    document.getElementById('sun-angle').style.color = 'yellow'
+}
+
+async function drawMoonPath() {
+    const kMaxMoonAnglePixel = data['setting']['max_path_height']
+
+    const ctx = document.getElementById('moon-path').getContext('2d')
+
+    ctx.strokeStyle = 'blue'
+    ctx.lineWidth = 1
+
+    ctx.beginPath()
+
+    var angle, x, y
+
+    // interpolate the sun path every 10 minutes
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 10) {
+            angle = await calculateAltitude('moon', hour, minute, 0)
+
+            x = Math.floor(((hour * 60 + minute) / 9) * 8)
+            y = 200 - Math.floor((angle / 90) * kMaxMoonAnglePixel)
+
+            if (hour == 0 && minute == 0) {
+                ctx.moveTo(x, y)
+            } else {
+                ctx.lineTo(x, y)
+            }
+        }
+    }
+
+    angle = await calculateAltitude('moon', 23, 59, 59)
+    x = 1280
+    y = 200 - Math.floor((angle / 90) * kMaxMoonAnglePixel)
+
+    ctx.lineTo(x, y)
+    ctx.stroke()
+}
+
+async function showMoonAngle() {
+    setTimeout(showMoonAngle, 120000)
+
+    var today = new Date()
+
+    var angle = await calculateAltitude(
+        'moon',
+        today.getHours(),
+        today.getMinutes(),
+        today.getSeconds()
+    )
+
+    var left = Math.floor(
+        ((today.getHours() * 3600 +
+            today.getMinutes() * 60 +
+            today.getSeconds()) /
+            86400) *
+            1280
+    )
+    var top = Math.floor(
+        200 - (data['setting']['max_path_height'] * angle) / 90
+    )
+
+    document.getElementById('moon-angle').style.left = left.toString() + 'px'
+    document.getElementById('moon-angle').style.top = top.toString() + 'px'
 }
 
 /**
- * Calculate solar altitude angle for the current day at a given time and
- * return the angle in degrees
+ * Calculate altitude angle of a planet for the current day at a given time
+ * and return the angle in degrees
+ *
+ * hour, minute and second should be in local time zone
  */
-function calculateSunAngle(hour, minute, second) {
-    var today = new Date()
-    var sunrise = openWeatherData['sys']['sunrise']
-    var sunset = openWeatherData['sys']['sunset']
-
-    // solar hour angle in degrees
-    var hourAngle =
-        (new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate(),
-            hour,
-            minute,
-            second
-        ) -
-            new Date((sunrise + sunset) * 500)) /
-        240000
-
-    // day number in this year
-    var dayNumber = Math.ceil(
-        (today - new Date(today.getFullYear(), 0, 1)) / 86400000
+async function calculateAltitude(planet, hour, minute, second) {
+    var now = new Date()
+    var time = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hour,
+        minute,
+        second
     )
 
-    // fraction year (in radians)
-    var fractionYear =
-        2 * Math.PI * (dayNumber - 1 + (today.getHours() - 12) / 24)
-    if (
-        (today.getFullYear() % 100 == 0 && today.getFullYear() % 400 == 0) ||
-        today.getFullYear() % 4 == 0
-    ) {
-        fractionYear /= 366
-    } else {
-        fractionYear /= 365
-    }
+    const url =
+        'http://127.0.0.1:5000/calculate-altitude?' +
+        'planet=' +
+        planet +
+        '&year=' +
+        time.getUTCFullYear().toString() +
+        '&month=' +
+        (time.getUTCMonth() + 1).toString() +
+        '&day=' +
+        time.getUTCDate().toString() +
+        '&hour=' +
+        time.getUTCHours().toString() +
+        '&minute=' +
+        time.getUTCMinutes().toString() +
+        '&second=' +
+        time.getUTCSeconds().toString() +
+        '&latitude=' +
+        data['local']['latitude'].toString() +
+        '&longitude=' +
+        data['local']['longitude'].toString()
 
-    // solar declination angle (in radians)
-    var declinationAngle =
-        0.006918 -
-        0.399912 * Math.cos(fractionYear) +
-        0.070257 * Math.sin(fractionYear) -
-        0.006758 * Math.cos(2 * fractionYear) +
-        0.000907 * Math.sin(2 * fractionYear) -
-        0.002697 * Math.cos(3 * fractionYear) +
-        0.00148 * Math.sin(3 * fractionYear)
-
-    // solar altitude angle
-    var solarAltitudeAngleRadians = Math.asin(
-        Math.sin((kLatitude * Math.PI) / 180) * Math.sin(declinationAngle) +
-            Math.cos((kLatitude * Math.PI) / 180) *
-                Math.cos(declinationAngle) *
-                Math.cos((hourAngle * Math.PI) / 180)
-    )
-
-    var solarAltitudeAngleDegrees = (solarAltitudeAngleRadians * 180) / Math.PI
-
-    return solarAltitudeAngleDegrees
+    return $.ajax({
+        type: 'GET',
+        url: url,
+    })
 }

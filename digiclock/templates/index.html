@@ -4,32 +4,45 @@
     <head>
         <meta charset="utf-8" />
         <title>Digital Clock</title>
-        <link rel="stylesheet" href="style.css" type="text/css" />
         <link
             rel="stylesheet"
-            href="weather-icons/css/weather-icons.css"
+            href="{{url_for('static', filename='style.css')}}"
+            type="text/css"
+        />
+        <link
+            rel="stylesheet"
+            href="{{url_for('static', filename='weather-icons/css/weather-icons.css')}}"
             type="text/css"
         />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="{{url_for('static', filename='utility.js')}}"></script>
+        <script src="{{url_for('static', filename='setting.json')}}"></script>
     </head>
     <body onload="initClock()">
         <div id="clock" class="clock">00:00:00</div>
         <div id="date" class="date">Monday, January 1</div>
-        <div id="weather" style="position: absolute; top: 40px; left: 60px">
+        <div id="weather" class="weather">
             <div id="temperature" class="temperature">0&deg;F</div>
             <i id="weather-icon" class="weather-icon wi wi-day-sunny"></i>
         </div>
         <div id="horizon" class="horizon"></div>
-        <div id="sun" style="position: absolute">
+        <div id="sun" class="sun">
             <canvas
-                id="sun-arc"
-                class="sun-arc"
+                id="sun-path"
+                class="sun-path"
                 height="400"
                 width="1280"
             ></canvas>
             <i id="sun-angle" class="sun-angle wi wi-day-sunny"></i>
         </div>
+        <div id="moon" class="moon">
+            <canvas
+                id="moon-path"
+                class="moon-path"
+                height="400"
+                width="1280"
+            ></canvas>
+            <i id="moon-angle" class="moon-angle wi wi-night-clear"></i>
+        </div>
     </body>
-    <script type="text/javascript" src="apikey.json"></script>
-    <script src="utility.js"></script>
 </html>

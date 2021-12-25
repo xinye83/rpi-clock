@@ -27,6 +27,14 @@ body {
     font-family: 'Fugaz One';
     color: white;
     font-size: 40px;
+    z-index: 100;
+}
+
+.weather {
+    position: absolute;
+    top: 40px;
+    left: 60px;
+    z-index: 100;
 }
 
 .temperature {
@@ -54,18 +62,41 @@ body {
     width: 1280px;
     border-bottom: 2px dashed white;
     opacity: 0.5;
-    z-index: 4;
+    z-index: 50;
+}
+
+.sun {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: yellow;
+    z-index: 80;
 }
 
 .sun-angle {
     position: absolute;
     transform: translate(-50%, -50%);
     font-size: 40px;
-    z-index: 8;
 }
 
-.sun-arc {
-    z-index: 6;
+.sun-path {
+}
+
+.moon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: blue;
+    z-index: 80;
+}
+
+.moon-angle {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+}
+
+.moon-path {
 }
 
 /* diable selection hightlighting */
