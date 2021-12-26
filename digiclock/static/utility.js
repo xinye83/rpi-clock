@@ -1,5 +1,61 @@
 var openWeatherData = null
 
+const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+]
+
+const dayNames = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+]
+
+const moonPhaseWeatherIconNames = [
+    'wi-moon-new' /* 0 degree */,
+    'wi-moon-waxing-crescent-1',
+    'wi-moon-waxing-crescent-2',
+    'wi-moon-waxing-crescent-3',
+    'wi-moon-waxing-crescent-4',
+    'wi-moon-waxing-crescent-5',
+    'wi-moon-waxing-crescent-6',
+    'wi-moon-first-quarter' /* 90 degree */,
+    'wi-moon-waxing-gibbous-1',
+    'wi-moon-waxing-gibbous-2',
+    'wi-moon-waxing-gibbous-3',
+    'wi-moon-waxing-gibbous-4',
+    'wi-moon-waxing-gibbous-5',
+    'wi-moon-waxing-gibbous-6',
+    'wi-moon-full' /* 180 degree */,
+    'wi-moon-waning-gibbous-1',
+    'wi-moon-waning-gibbous-2',
+    'wi-moon-waning-gibbous-3',
+    'wi-moon-waning-gibbous-4',
+    'wi-moon-waning-gibbous-5',
+    'wi-moon-waning-gibbous-6',
+    'wi-moon-third-quarter' /* 270 degree */,
+    'wi-moon-waning-crescent-1',
+    'wi-moon-waning-crescent-2',
+    'wi-moon-waning-crescent-3',
+    'wi-moon-waning-crescent-4',
+    'wi-moon-waning-crescent-5',
+    'wi-moon-waning-crescent-6',
+]
+
 /**
  * Initialize all elements of the digital clock when the page is loaded
  */
@@ -9,7 +65,7 @@ function initClock() {
     showWeather()
     showSunAngle()
     drawSunPath()
-    showMoonAngle()
+    showMoonAngleAndPhase()
     drawMoonPath()
 }
 
@@ -19,7 +75,11 @@ async function updateData() {
 
     const apikey = data['api_key']['open_weather'].toString()
     const cityid = data['local']['city_id'].toString()
-    const openWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?id=${cityid}&&units=imperial&appid=${apikey}`
+    const openWeatherAPI =
+        'https://api.openweathermap.org/data/2.5/weather?id=' +
+        cityid +
+        '&&units=imperial&appid=' +
+        apikey
 
     $.getJSON(openWeatherAPI, function (result) {
         openWeatherData = result
@@ -49,31 +109,6 @@ async function showTime() {
     var textTime = hour + ':' + minute + ':' + second
     document.getElementById('clock').innerText = textTime
     document.getElementById('clock').textContent = textTime
-
-    const monthNames = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ]
-
-    const dayNames = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ]
 
     var month = monthNames[today.getMonth()]
     var dayOfWeek = dayNames[today.getDay()]
@@ -132,14 +167,14 @@ async function drawSunPath() {
     ctx.lineWidth = 1
 
     const url =
-        'http://127.0.0.1:5000/get-path?' +
-        'planet=sun&latitude=' +
+        'http://127.0.0.1:5000/get-path?planet=sun&latitude=' +
         data['local']['latitude'].toString() +
         '&longitude=' +
         data['local']['longitude'].toString()
 
     $.getJSON(url, function (sunPath) {
         ctx.beginPath()
+        ctx.setLineDash([10, 6])
 
         for (var i = 0; i < sunPath.length; i++) {
             var x = Math.floor((i / (sunPath.length - 1)) * 1280)
@@ -162,8 +197,7 @@ async function showSunAngle() {
     var now = new Date()
 
     const url =
-        'http://127.0.0.1:5000/get-altitude?' +
-        'planet=sun&year=' +
+        'http://127.0.0.1:5000/get-altitude?planet=sun&year=' +
         now.getUTCFullYear().toString() +
         '&month=' +
         (now.getUTCMonth() + 1).toString() +
@@ -196,11 +230,6 @@ async function showSunAngle() {
 
         document.getElementById('sun-angle').style.left = left.toString() + 'px'
         document.getElementById('sun-angle').style.top = top.toString() + 'px'
-
-        document.getElementById('sun-angle-background').style.left =
-            left.toString() + 'px'
-        document.getElementById('sun-angle-background').style.top =
-            top.toString() + 'px'
     })
 }
 
@@ -214,14 +243,14 @@ async function drawMoonPath() {
     ctx.lineWidth = 1
 
     const url =
-        'http://127.0.0.1:5000/get-path?' +
-        'planet=moon&latitude=' +
+        'http://127.0.0.1:5000/get-path?planet=moon&latitude=' +
         data['local']['latitude'].toString() +
         '&longitude=' +
         data['local']['longitude'].toString()
 
     $.getJSON(url, function (moonPath) {
         ctx.beginPath()
+        ctx.setLineDash([10, 6])
 
         for (var i = 0; i < moonPath.length; i++) {
             var x = Math.floor((i / (moonPath.length - 1)) * 1280)
@@ -238,14 +267,13 @@ async function drawMoonPath() {
     })
 }
 
-async function showMoonAngle() {
-    setTimeout(showMoonAngle, 120000)
+async function showMoonAngleAndPhase() {
+    setTimeout(showMoonAngleAndPhase, 120000)
 
     var now = new Date()
 
-    const url =
-        'http://127.0.0.1:5000/get-altitude?' +
-        'planet=moon&year=' +
+    const url1 =
+        'http://127.0.0.1:5000/get-altitude?planet=moon&year=' +
         now.getUTCFullYear().toString() +
         '&month=' +
         (now.getUTCMonth() + 1).toString() +
@@ -264,7 +292,7 @@ async function showMoonAngle() {
 
     $.ajax({
         type: 'GET',
-        url: url,
+        url: url1,
     }).done(function (angle) {
         var left = Math.floor(
             (now.getHours() * 7200 +
@@ -279,10 +307,34 @@ async function showMoonAngle() {
         document.getElementById('moon-angle').style.left =
             left.toString() + 'px'
         document.getElementById('moon-angle').style.top = top.toString() + 'px'
+    })
 
-        document.getElementById('moon-angle-background').style.left =
-            left.toString() + 'px'
-        document.getElementById('moon-angle-background').style.top =
-            top.toString() + 'px'
+    const url2 =
+        'http://127.0.0.1:5000/get-moon-phase?year=' +
+        now.getUTCFullYear().toString() +
+        '&month=' +
+        (now.getUTCMonth() + 1).toString() +
+        '&day=' +
+        now.getUTCDate().toString() +
+        '&hour=' +
+        now.getUTCHours().toString() +
+        '&minute=' +
+        now.getUTCMinutes().toString() +
+        '&second=' +
+        now.getUTCSeconds().toString()
+
+    $.ajax({
+        type: 'GET',
+        url: url2,
+    }).done(function (moonPhase) {
+        // The return value moonPhase is an angle between 0 and 360 in degrees.
+        var index = Math.round((moonPhase * 7) / 90)
+
+        if (index == 28) {
+            index = 0
+        }
+
+        document.getElementById('moon-angle').className =
+            'moon-angle wi ' + moonPhaseWeatherIconNames[index]
     })
 }

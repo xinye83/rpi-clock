@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import skyfield.api
+from skyfield.framelib import ecliptic_frame
 from datetime import datetime, timezone, timedelta
 import json
 
@@ -65,7 +66,6 @@ def get_altitude():
     if planet not in targets:
         return ""
 
-    # the next 6 arguments should all be in UTC time
     year = request.args.get("year", default=None, type=int)
     month = request.args.get("month", default=None, type=int)
     day = request.args.get("day", default=None, type=int)
@@ -81,6 +81,27 @@ def get_altitude():
             planet, latitude, longitude, year, month, day, hour, minute, second
         )
     )
+
+
+@app.route("/get-moon-phase", methods=["GET"])
+def get_moon_phase():
+    year = request.args.get("year", default=None, type=int)
+    month = request.args.get("month", default=None, type=int)
+    day = request.args.get("day", default=None, type=int)
+    hour = request.args.get("hour", default=None, type=int)
+    minute = request.args.get("minute", default=None, type=int)
+    second = request.args.get("second", default=None, type=int)
+
+    sun, moon, earth = planets["sun"], planets["moon"], planets["earth"]
+
+    local = earth.at(timescale.utc(year, month, day, hour, minute, second))
+
+    _, sun_longitude, _ = local.observe(sun).apparent().frame_latlon(ecliptic_frame)
+    _, moon_longitude, _ = local.observe(moon).apparent().frame_latlon(ecliptic_frame)
+
+    moon_phase = (moon_longitude.degrees - sun_longitude.degrees) % 360
+
+    return str(moon_phase)
 
 
 # planet: target
