@@ -160,11 +160,15 @@ async function showWeather() {
 async function drawSunPath() {
     const maxPathHeight = data['setting']['max_path_height']
 
-    const ctx = document.getElementById('sun-path').getContext('2d')
-    ctx.strokeStyle = window
+    const canvas = document.getElementById('sun-path')
+    const context = canvas.getContext('2d')
+
+    context.clearRect(0, 0, canvas.width, canvas.height)
+
+    context.strokeStyle = window
         .getComputedStyle(document.getElementById('sun'))
         .getPropertyValue('color')
-    ctx.lineWidth = 1
+    context.lineWidth = 1
 
     const url =
         'http://127.0.0.1:5000/get-path?planet=sun&latitude=' +
@@ -173,21 +177,21 @@ async function drawSunPath() {
         data['local']['longitude'].toString()
 
     $.getJSON(url, function (sunPath) {
-        ctx.beginPath()
-        ctx.setLineDash([10, 6])
+        context.beginPath()
+        context.setLineDash([10, 6])
 
         for (var i = 0; i < sunPath.length; i++) {
             var x = Math.floor((i / (sunPath.length - 1)) * 1280)
             var y = 200 - Math.floor((sunPath[i] / 90) * maxPathHeight)
 
             if (i == 0) {
-                ctx.moveTo(x, y)
+                context.moveTo(x, y)
             } else {
-                ctx.lineTo(x, y)
+                context.lineTo(x, y)
             }
         }
 
-        ctx.stroke()
+        context.stroke()
     })
 }
 
@@ -236,11 +240,15 @@ async function showSunAngle() {
 async function drawMoonPath() {
     const maxPathHeight = data['setting']['max_path_height']
 
-    const ctx = document.getElementById('moon-path').getContext('2d')
-    ctx.strokeStyle = window
+    const canvas = document.getElementById('moon-path')
+    const context = canvas.getContext('2d')
+
+    context.clearRect(0, 0, canvas.width, canvas.height)
+
+    context.strokeStyle = window
         .getComputedStyle(document.getElementById('moon'))
         .getPropertyValue('color')
-    ctx.lineWidth = 1
+    context.lineWidth = 1
 
     const url =
         'http://127.0.0.1:5000/get-path?planet=moon&latitude=' +
@@ -249,21 +257,21 @@ async function drawMoonPath() {
         data['local']['longitude'].toString()
 
     $.getJSON(url, function (moonPath) {
-        ctx.beginPath()
-        ctx.setLineDash([10, 6])
+        context.beginPath()
+        context.setLineDash([10, 6])
 
         for (var i = 0; i < moonPath.length; i++) {
             var x = Math.floor((i / (moonPath.length - 1)) * 1280)
             var y = 200 - Math.floor((moonPath[i] / 90) * maxPathHeight)
 
             if (i == 0) {
-                ctx.moveTo(x, y)
+                context.moveTo(x, y)
             } else {
-                ctx.lineTo(x, y)
+                context.lineTo(x, y)
             }
         }
 
-        ctx.stroke()
+        context.stroke()
     })
 }
 
