@@ -78,6 +78,7 @@ body {
     position: absolute;
     transform: translate(-50%, -50%);
     font-size: 80px;
+    -webkit-text-stroke: 1px black;
     z-index: 90;
 }
 
@@ -98,6 +99,7 @@ body {
     position: absolute;
     transform: translate(-50%, -50%);
     font-size: 80px;
+    -webkit-text-stroke: 1px black;
     z-index: 80;
 }
 
