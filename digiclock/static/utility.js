@@ -196,6 +196,11 @@ async function showSunAngle() {
 
         document.getElementById('sun-angle').style.left = left.toString() + 'px'
         document.getElementById('sun-angle').style.top = top.toString() + 'px'
+
+        document.getElementById('sun-angle-background').style.left =
+            left.toString() + 'px'
+        document.getElementById('sun-angle-background').style.top =
+            top.toString() + 'px'
     })
 }
 
@@ -274,5 +279,10 @@ async function showMoonAngle() {
         document.getElementById('moon-angle').style.left =
             left.toString() + 'px'
         document.getElementById('moon-angle').style.top = top.toString() + 'px'
+
+        document.getElementById('moon-angle-background').style.left =
+            left.toString() + 'px'
+        document.getElementById('moon-angle-background').style.top =
+            top.toString() + 'px'
     })
 }

@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
-from skyfield.api import wgs84, load
+import skyfield.api
 from datetime import datetime, timezone, timedelta
 import json
 
 app = Flask(__name__)
 
-planets = load("de421.bsp")
-ts = load.timescale()
+planets = skyfield.api.load("de421.bsp")
+timescale = skyfield.api.load.timescale()
 
 targets = ["sun", "moon"]
 
@@ -16,9 +16,10 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/get-path")
+@app.route("/get-path", methods=["GET"])
 def get_path():
     planet = request.args.get("planet", default=None, type=str)
+
     if planet not in targets:
         return ""
 
@@ -57,7 +58,7 @@ def get_path():
     return json.dumps(path)
 
 
-@app.route("/get-altitude")
+@app.route("/get-altitude", methods=["GET"])
 def get_altitude():
     planet = request.args.get("planet", default=None, type=str)
 
@@ -91,9 +92,9 @@ def calculate_altitude(
     earth = planets["earth"]
     target = planets[planet]
 
-    local = earth + wgs84.latlon(latitude, longitude)
+    local = earth + skyfield.api.wgs84.latlon(latitude, longitude)
     altitude, _, _ = (
-        local.at(ts.utc(year, month, day, hour, minute, second))
+        local.at(timescale.utc(year, month, day, hour, minute, second))
         .observe(target)
         .apparent()
         .altaz()

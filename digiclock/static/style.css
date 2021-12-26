@@ -12,7 +12,7 @@ body {
     left: 640px;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 150px;
+    font-size: 170px;
     font-family: 'IBM Plex Mono';
     letter-spacing: -5px;
     -webkit-text-stroke: 1px black;
@@ -70,16 +70,27 @@ body {
     top: 0;
     left: 0;
     color: yellow;
-    z-index: 80;
 }
 
 .sun-angle {
     position: absolute;
     transform: translate(-50%, -50%);
     font-size: 80px;
+    z-index: 90;
+}
+
+.sun-angle-background {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: black;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    z-index: 70;
 }
 
 .sun-path {
+    z-index: 60;
 }
 
 .moon {
@@ -87,16 +98,27 @@ body {
     top: 0;
     left: 0;
     color: blue;
-    z-index: 70;
 }
 
 .moon-angle {
     position: absolute;
     transform: translate(-50%, -50%);
     font-size: 80px;
+    z-index: 85;
+}
+
+.moon-angle-background {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: black;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    z-index: 70;
 }
 
 .moon-path {
+    z-index: 60;
 }
 
 /* diable selection hightlighting */
