@@ -1,4 +1,4 @@
-# rpi-playground
+# rpi-clock
 
 A playground for my own Raspberry Pi project.
 
