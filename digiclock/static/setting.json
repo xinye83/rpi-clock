@@ -1,0 +1,7 @@
+setting = {
+    "cityID": 5019767, /* cityID in openWeather API city list */
+    "latitude": 44.76406428187557,
+    "longitude": -93.26549473149332,
+    "maxPathHeight": 180,
+    "indexURL": "http://127.0.0.1:5000/",
+}

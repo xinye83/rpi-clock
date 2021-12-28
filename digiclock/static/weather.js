@@ -1,6 +1,6 @@
 async function updateWeather() {
-    const apiKey = data['api_key']['open_weather']
-    const cityID = data['local']['city_id'].toString()
+    const apiKey = secret['openWeatherAPIKey']
+    const cityID = setting['cityID'].toString()
     const url =
         'https://api.openweathermap.org/data/2.5/weather' +
         '?id=' +

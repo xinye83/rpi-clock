@@ -1,5 +1,5 @@
-const maxPathHeight = data['setting']['max_path_height']
-const indexURL = 'http://127.0.0.1:5000/'
+const maxPathHeight = setting['maxPathHeight']
+const indexURL = setting['indexURL']
 
 async function updateSun() {
     const now = new Date()
@@ -10,9 +10,9 @@ async function updateSun() {
         'path' +
         '?planet=sun' +
         '&latitude=' +
-        data['local']['latitude'].toString() +
+        setting['latitude'].toString() +
         '&longitude=' +
-        data['local']['longitude'].toString() +
+        setting['longitude'].toString() +
         '&timestamp=' +
         Math.floor(now.getTime() / 1000).toString() +
         '&interval=11'
@@ -89,9 +89,9 @@ async function updateMoon() {
         'path' +
         '?planet=moon' +
         '&latitude=' +
-        data['local']['latitude'].toString() +
+        setting['latitude'].toString() +
         '&longitude=' +
-        data['local']['longitude'].toString() +
+        setting['longitude'].toString() +
         '&timestamp=' +
         Math.floor(now.getTime() / 1000).toString() +
         '&interval=11'
