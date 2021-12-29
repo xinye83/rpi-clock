@@ -7,7 +7,7 @@ fi
 export FLASK_APP=digiclock
 
 if [[ -z $DISPLAY && $(tty) = /dev/tty1 ]]; then
-    cd /home/pi/rpi-playground/digiclock
+    cd /home/pi/rpi-clock/digiclock
     nohup flask run &
     startx -- -nocursor
 fi
