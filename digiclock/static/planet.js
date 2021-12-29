@@ -1,51 +1,6 @@
 const maxPathHeight = setting['maxPathHeight']
 const indexURL = setting['indexURL']
-
-async function updateSun() {
-    const now = new Date()
-
-    /* update sun path data */
-    const url =
-        indexURL +
-        'path' +
-        '?planet=sun' +
-        '&latitude=' +
-        setting['latitude'].toString() +
-        '&longitude=' +
-        setting['longitude'].toString() +
-        '&timestamp=' +
-        Math.floor(now.getTime() / 1000).toString() +
-        '&interval=11'
-
-    $.getJSON(url, function (sunPath) {
-        /* update sun position */
-        const left = Math.round(
-            ((now.getHours() * 3600 +
-                now.getMinutes() * 60 +
-                now.getSeconds()) /
-                86400) *
-                1280
-        )
-        const top = Math.round(
-            200 -
-                (sunPath[Math.floor(sunPath.length / 2)][1] / 90) *
-                    maxPathHeight
-        )
-
-        document.getElementById('sun-angle').style.left = left.toString() + 'px'
-        document.getElementById('sun-angle').style.top = top.toString() + 'px'
-
-        /* draw sun path */
-        drawPath(
-            document.getElementById('sun-path'),
-            sunPath,
-            now,
-            window
-                .getComputedStyle(document.getElementById('sun'))
-                .getPropertyValue('color')
-        )
-    })
-}
+const pathInterval = setting['pathInterval']
 
 const moonPhaseWeatherIconNames = [
     'wi-moon-new' /* 0 degree */,
@@ -78,6 +33,46 @@ const moonPhaseWeatherIconNames = [
     'wi-moon-waning-crescent-6',
 ]
 
+async function updateSun() {
+    const now = new Date()
+
+    /* update sun path data */
+    const url =
+        indexURL +
+        'path' +
+        '?planet=sun' +
+        '&latitude=' +
+        setting['latitude'].toString() +
+        '&longitude=' +
+        setting['longitude'].toString() +
+        '&timestamp=' +
+        Math.floor(now.getTime() / 1000).toString() +
+        '&interval=' +
+        pathInterval.toString()
+
+    $.getJSON(url, function (sunPath) {
+        /* update sun position */
+        const left = Math.round(
+            ((now.getHours() * 3600 +
+                now.getMinutes() * 60 +
+                now.getSeconds()) /
+                86400) *
+                1280
+        )
+        const top = Math.round(
+            200 -
+                (sunPath[Math.floor(sunPath.length / 2)][1] / 90) *
+                    maxPathHeight
+        )
+
+        document.getElementById('sun-angle').style.left = left.toString() + 'px'
+        document.getElementById('sun-angle').style.top = top.toString() + 'px'
+
+        /* draw sun path */
+        drawPath(document.getElementById('sun-path'), sunPath, now)
+    })
+}
+
 async function updateMoon() {
     const now = new Date()
 
@@ -94,7 +89,8 @@ async function updateMoon() {
         setting['longitude'].toString() +
         '&timestamp=' +
         Math.floor(now.getTime() / 1000).toString() +
-        '&interval=11'
+        '&interval=' +
+        pathInterval.toString()
 
     $.getJSON(url, function (moonPath) {
         /* update moon position */
@@ -116,14 +112,7 @@ async function updateMoon() {
         document.getElementById('moon-angle').style.top = top.toString() + 'px'
 
         /* draw moon path */
-        drawPath(
-            document.getElementById('moon-path'),
-            moonPath,
-            now,
-            window
-                .getComputedStyle(document.getElementById('moon'))
-                .getPropertyValue('color')
-        )
+        drawPath(document.getElementById('moon-path'), moonPath, now)
     })
 
     url =
@@ -183,9 +172,10 @@ function drawPath(canvas, path, now, color) {
         endOfToday.getTime() / 1000
     )
 
-    context.strokeStyle = color
-    context.lineWidth = 2
-    context.setLineDash([10, 6])
+    context.strokeStyle = window
+        .getComputedStyle(canvas)
+        .getPropertyValue('color')
+    context.lineWidth = 3
     context.stroke()
 }
 

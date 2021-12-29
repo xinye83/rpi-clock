@@ -13,20 +13,21 @@ body {
     transform: translate(-50%, -50%);
     color: white;
     font-size: 170px;
-    font-family: 'IBM Plex Mono';
+    font-family: 'IBM Plex Mono SemiBold';
     letter-spacing: -5px;
-    -webkit-text-stroke: 1px black;
+    -webkit-text-stroke: 4px black;
     z-index: 100;
 }
 
 .date {
     position: absolute;
-    left: 640px;
     top: 310px;
+    left: 640px;
     transform: translate(-50%, -50%);
     font-family: 'Fugaz One';
     color: white;
-    font-size: 40px;
+    font-size: 50px;
+    -webkit-text-stroke: 1px black;
     z-index: 100;
 }
 
@@ -34,7 +35,6 @@ body {
     position: absolute;
     top: 40px;
     left: 60px;
-    z-index: 100;
 }
 
 .temperature {
@@ -43,17 +43,21 @@ body {
     left: 0;
     font-family: 'Fugaz One';
     color: white;
-    font-size: 40px;
+    font-size: 50px;
+    -webkit-text-stroke: 1px black;
     float: left;
+    z-index: 100;
 }
 
 .weather-icon {
     position: relative;
-    top: 4px;
+    top: 9px;
     left: 15px;
     color: white;
-    font-size: 47px;
+    font-size: 50px;
+    -webkit-text-stroke: 1px black;
     float: left;
+    z-index: 100;
 }
 
 .horizon {
@@ -77,13 +81,13 @@ body {
 .sun-angle {
     position: absolute;
     transform: translate(-50%, -50%);
-    font-size: 60px;
+    font-size: 80px;
     -webkit-text-stroke: 1px black;
     z-index: 90;
 }
 
 .sun-path {
-    z-index: 60;
+    z-index: 70;
 }
 
 .moon {
@@ -98,7 +102,7 @@ body {
 .moon-angle {
     position: absolute;
     transform: translate(-50%, -50%);
-    font-size: 80px;
+    font-size: 100px;
     -webkit-text-stroke: 1px black;
     z-index: 80;
 }

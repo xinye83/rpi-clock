@@ -3,5 +3,6 @@ setting = {
     "latitude": 44.76406428187557,
     "longitude": -93.26549473149332,
     "maxPathHeight": 180,
+    "pathInterval": 9,
     "indexURL": "http://127.0.0.1:5000/",
 }
