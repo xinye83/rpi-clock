@@ -1,52 +1,48 @@
-<!DOCTYPE html>
-
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Digital Clock</title>
-        <link
-            rel="stylesheet"
-            href="{{url_for('static', filename='style.css')}}"
-            type="text/css"
-        />
-        <link
-            rel="stylesheet"
-            href="{{url_for('static', filename='weather-icons/css/weather-icons.css')}}"
-            type="text/css"
-        />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="{{url_for('static', filename='secret.json')}}"></script>
-        <script src="{{url_for('static', filename='setting.json')}}"></script>
-        <script src="{{url_for('static', filename='utility.js')}}"></script>
-        <script src="{{url_for('static', filename='clock.js')}}"></script>
-        <script src="{{url_for('static', filename='weather.js')}}"></script>
-        <script src="{{url_for('static', filename='planet.js')}}"></script>
-    </head>
-    <body onload="initClock()">
-        <div id="clock" class="clock">00:00:00</div>
-        <div id="date" class="date">Monday, January 1</div>
-        <div id="weather" class="weather">
-            <div id="temperature" class="temperature">0&deg;F</div>
-            <i id="weather-icon" class="weather-icon wi wi-day-sunny"></i>
-        </div>
-        <div id="horizon" class="horizon"></div>
-        <div id="sun" class="sun">
-            <canvas
-                id="sun-path"
-                class="sun-path"
-                height="400"
-                width="1280"
-            ></canvas>
-            <i id="sun-angle" class="sun-angle wi wi-day-sunny"></i>
-        </div>
-        <div id="moon" class="moon">
-            <canvas
-                id="moon-path"
-                class="moon-path"
-                height="400"
-                width="1280"
-            ></canvas>
-            <i id="moon-angle" class="moon-angle wi wi-moon-new"></i>
-        </div>
-    </body>
-</html>
+{% extends 'base.html' %} {% block title %} Digital Clock {% endblock %} {%
+block script %}
+<link
+    rel="stylesheet"
+    href="{{url_for('static', filename='index.css')}}"
+    type="text/css"
+/>
+<link
+    rel="stylesheet"
+    href="{{url_for('static', filename='weather-icons/css/weather-icons.css')}}"
+    type="text/css"
+/>
+<script src="{{url_for('static', filename='secret.json')}}"></script>
+<script src="{{url_for('static', filename='setting.json')}}"></script>
+<script src="{{url_for('static', filename='utility.js')}}"></script>
+<script src="{{url_for('static', filename='clock.js')}}"></script>
+<script src="{{url_for('static', filename='weather.js')}}"></script>
+<script src="{{url_for('static', filename='planet.js')}}"></script>
+{% endblock %} {% block body %}
+<body onload="initClock()">
+    <div id="clock" class="clock">00:00:00</div>
+    <div id="date" class="date">Monday, January 1</div>
+    <div id="weather" class="weather">
+        <div id="temperature" class="temperature">0&deg;F</div>
+        <i id="weather-icon" class="weather-icon wi wi-day-sunny"></i>
+    </div>
+    <div id="horizon" class="horizon"></div>
+    <div id="sun" class="sun">
+        <canvas
+            id="sun-path"
+            class="sun-path"
+            height="400"
+            width="1280"
+        ></canvas>
+        <i id="sun-angle" class="sun-angle wi wi-day-sunny"></i>
+    </div>
+    <div id="moon" class="moon">
+        <canvas
+            id="moon-path"
+            class="moon-path"
+            height="400"
+            width="1280"
+        ></canvas>
+        <i id="moon-angle" class="moon-angle wi wi-moon-new"></i>
+    </div>
+    <a href="http://127.0.0.1:5000/home">Click Me</a>
+</body>
+{% endblock %}
