@@ -1,28 +1,27 @@
-from flask import Flask, render_template, request
-from markupsafe import escape
+from flask import Blueprint, render_template, request
 import skyfield.api
 from skyfield.framelib import ecliptic_frame
 from datetime import datetime, timezone, timedelta
 import json
-
-app = Flask(__name__)
-
-
-@app.route("/", methods=["GET"])
-@app.route("/index", methods=["GET"])
-def index():
-    return render_template("index.html")
+import os
 
 
-@app.route("/home", methods=["GET"])
-def home():
-    return render_template("home.html")
-
+Clock = Blueprint("clock", __name__)
 
 targets = ["sun", "moon"]
 
+planets = skyfield.api.load(os.path.dirname(__file__) + "/de421.bsp")
+sun, moon, earth = planets["sun"], planets["moon"], planets["earth"]
+timescale = skyfield.api.load.timescale()
 
-@app.route("/path", methods=["GET"])
+
+@Clock.route("/", methods=["GET"])
+@Clock.route("/index", methods=["GET"])
+def index():
+    return render_template("clock.html")
+
+
+@Clock.route("/path", methods=["GET"])
 def get_path():
     planet = request.args.get("planet", default=None, type=str)
 
@@ -59,12 +58,6 @@ def get_path():
     return json.dumps(get_path(planet, latitude, longitude, timestamps))
 
 
-planets = skyfield.api.load("de421.bsp")
-sun, moon, earth = planets["sun"], planets["moon"], planets["earth"]
-
-timescale = skyfield.api.load.timescale()
-
-
 def get_path(planet, latitude, longitude, timestamps):
     path = []
     earth = planets["earth"]
@@ -89,7 +82,7 @@ def get_path(planet, latitude, longitude, timestamps):
     return path
 
 
-@app.route("/moon-phase", methods=["GET"])
+@Clock.route("/moon-phase", methods=["GET"])
 def get_moon_phase():
     # in seconds
     timestamp = request.args.get("timestamp", default=None, type=int)

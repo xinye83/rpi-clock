@@ -2,7 +2,7 @@
 block script %}
 <link
     rel="stylesheet"
-    href="{{url_for('static', filename='index.css')}}"
+    href="{{url_for('static', filename='clock.css')}}"
     type="text/css"
 />
 <link
@@ -43,6 +43,6 @@ block script %}
         ></canvas>
         <i id="moon-angle" class="moon-angle wi wi-moon-new"></i>
     </div>
-    <a href="http://127.0.0.1:5000/home">Click Me</a>
+    <a href="{{setting['indexURL']}}/home/">Click Me</a>
 </body>
 {% endblock %}

@@ -1,5 +1,5 @@
 const maxPathHeight = setting['maxPathHeight']
-const indexURL = setting['indexURL']
+const baseURL = setting['indexURL'] + 'clock/'
 const pathInterval = setting['pathInterval']
 
 const moonPhaseWeatherIconNames = [
@@ -38,7 +38,7 @@ async function updateSun() {
 
     /* update sun path data */
     const url =
-        indexURL +
+        baseURL +
         'path' +
         '?planet=sun' +
         '&latitude=' +
@@ -80,7 +80,7 @@ async function updateMoon() {
 
     /* update moon path data */
     url =
-        indexURL +
+        baseURL +
         'path' +
         '?planet=moon' +
         '&latitude=' +
@@ -116,7 +116,7 @@ async function updateMoon() {
     })
 
     url =
-        indexURL +
+        baseURL +
         'moon-phase' +
         '?timestamp=' +
         Math.floor(now.getTime() / 1000).toString()
@@ -207,7 +207,10 @@ async function drawSunPath() {
     context.lineWidth = 1
 
     const url =
-        'http://127.0.0.1:5000/get-path?planet=sun&latitude=' +
+        baseURL +
+        'get-path' +
+        '?planet=sun' +
+        '&latitude=' +
         data['local']['latitude'].toString() +
         '&longitude=' +
         data['local']['longitude'].toString()
@@ -237,7 +240,10 @@ async function showMoonAngleAndPhase() {
     var now = new Date()
 
     const url1 =
-        'http://127.0.0.1:5000/get-altitude?planet=moon&year=' +
+        baseURL +
+        'get-altitude' +
+        '?planet=moon' +
+        '&year=' +
         now.getUTCFullYear().toString() +
         '&month=' +
         (now.getUTCMonth() + 1).toString() +
