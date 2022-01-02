@@ -1,7 +1,3 @@
-const maxPathHeight = setting['maxPathHeight']
-const baseURL = setting['indexURL'] + 'clock/'
-const pathInterval = setting['pathInterval']
-
 const moonPhaseWeatherIconNames = [
     'wi-moon-new' /* 0 degree */,
     'wi-moon-waxing-crescent-1',
@@ -34,12 +30,15 @@ const moonPhaseWeatherIconNames = [
 ]
 
 async function updateSun() {
+    const maxPathHeight = setting['maxPathHeight']
+    const pathInterval = setting['pathInterval']
+
     const now = new Date()
 
     /* update sun path data */
     const url =
-        baseURL +
-        'path' +
+        setting['indexURL'] +
+        'clock/path' +
         '?planet=sun' +
         '&latitude=' +
         setting['latitude'].toString() +
@@ -74,14 +73,17 @@ async function updateSun() {
 }
 
 async function updateMoon() {
+    const maxPathHeight = setting['maxPathHeight']
+    const pathInterval = setting['pathInterval']
+
     const now = new Date()
 
     var url
 
     /* update moon path data */
     url =
-        baseURL +
-        'path' +
+        setting['indexURL'] +
+        'clock/path' +
         '?planet=moon' +
         '&latitude=' +
         setting['latitude'].toString() +
@@ -116,8 +118,8 @@ async function updateMoon() {
     })
 
     url =
-        baseURL +
-        'moon-phase' +
+        setting['indexURL'] +
+        'clock/moon-phase' +
         '?timestamp=' +
         Math.floor(now.getTime() / 1000).toString()
 
@@ -180,6 +182,8 @@ function drawPath(canvas, path, now, color) {
 }
 
 function drawSegment(context, segment, start) {
+    const maxPathHeight = setting['maxPathHeight']
+
     segment.forEach(function (item, index) {
         var left = Math.round(((item[0] - start) / 86400) * 1280)
         var top = 200 - Math.round((item[1] / 90) * maxPathHeight)
@@ -196,6 +200,8 @@ function drawSegment(context, segment, start) {
  * Draw sun path of today on the screen
  */
 async function drawSunPath() {
+    const maxPathHeight = setting['maxPathHeight']
+
     const canvas = document.getElementById('sun-path')
     const context = canvas.getContext('2d')
 

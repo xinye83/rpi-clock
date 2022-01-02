@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 import skyfield.api
 from skyfield.framelib import ecliptic_frame
 from datetime import datetime, timezone, timedelta
-import json
+import json, requests
 import os
 
 
@@ -104,3 +104,20 @@ def get_moon_phase():
     moon_phase = (moon_longitude.degrees - sun_longitude.degrees) % 360
 
     return str(moon_phase)
+
+
+@Clock.route("/weather", methods=["GET"])
+def get_weather():
+    city_id = request.args.get("id", default=None, type=str)
+
+    if not city_id:
+        return json.dumps([])
+
+    with open(
+        os.path.join(os.path.dirname(__file__), "static", "secret.json"), "r"
+    ) as f:
+        api_key = json.loads(f.read()[9:])["openWeatherAPIKey"]
+
+    url = f"https://api.openweathermap.org/data/2.5/weather?id={city_id}&appid={api_key}&units=imperial"
+
+    return json.dumps(requests.get(url).json())

@@ -5,7 +5,7 @@ import clock
 import home
 
 
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), "static"))
+app = Flask(__name__)
 
 app.register_blueprint(clock.Clock, url_prefix="/clock")
 app.register_blueprint(home.Home, url_prefix="/home")

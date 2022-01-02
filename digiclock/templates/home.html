@@ -7,5 +7,8 @@ Home
 
 <!-- prettier-ignore -->
 {% block body %}
-This is a new page.
+<body>
+    <p style="color: white">This is a new page.</p>
+    <a href="{{ url_for('clock.index') }}">Click Me</a>
+</body>
 {% endblock %}
