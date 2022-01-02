@@ -1,22 +1,30 @@
-{% extends 'base.html' %} {% block title %} Digital Clock {% endblock %} {%
-block script %}
+{% extends 'base.html' %}
+
+<!-- prettier-ignore -->
+{% block title %}
+Clock
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block script %}
 <link
     rel="stylesheet"
-    href="{{url_for('static', filename='clock.css')}}"
+    href="{{ url_for('static', filename='clock.css') }}"
     type="text/css"
 />
 <link
     rel="stylesheet"
-    href="{{url_for('static', filename='weather-icons/css/weather-icons.css')}}"
+    href="{{ url_for('static', filename='weather-icons/css/weather-icons.css') }}"
     type="text/css"
 />
-<script src="{{url_for('static', filename='secret.json')}}"></script>
-<script src="{{url_for('static', filename='setting.json')}}"></script>
-<script src="{{url_for('static', filename='utility.js')}}"></script>
-<script src="{{url_for('static', filename='clock.js')}}"></script>
-<script src="{{url_for('static', filename='weather.js')}}"></script>
-<script src="{{url_for('static', filename='planet.js')}}"></script>
-{% endblock %} {% block body %}
+<script src="{{ url_for('static', filename='utility.js') }}"></script>
+<script src="{{ url_for('static', filename='clock.js') }}"></script>
+<script src="{{ url_for('static', filename='weather.js') }}"></script>
+<script src="{{ url_for('static', filename='planet.js') }}"></script>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block body %}
 <body onload="initClock()">
     <div id="clock" class="clock">00:00:00</div>
     <div id="date" class="date">Monday, January 1</div>
@@ -43,6 +51,6 @@ block script %}
         ></canvas>
         <i id="moon-angle" class="moon-angle wi wi-moon-new"></i>
     </div>
-    <a href="{{setting['indexURL']}}/home/">Click Me</a>
+    <a href="{{ url_for('home.index') }}">Click Me</a>
 </body>
 {% endblock %}

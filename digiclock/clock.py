@@ -10,7 +10,7 @@ Clock = Blueprint("clock", __name__)
 
 targets = ["sun", "moon"]
 
-planets = skyfield.api.load(os.path.dirname(__file__) + "/de421.bsp")
+planets = skyfield.api.load(os.path.join(os.path.dirname(__file__), "de421.bsp"))
 sun, moon, earth = planets["sun"], planets["moon"], planets["earth"]
 timescale = skyfield.api.load.timescale()
 
