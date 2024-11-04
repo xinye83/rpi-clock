@@ -72,6 +72,9 @@ Automatically start the GUI without mouse pointer on startup. Create or open
 #!/bin/bash
 
 if [[ -z $DISPLAY && $(tty) = /dev/tty1 ]]; then
+    cd ~/rpi-clock/digiclock
+    cd ~/rpi-clock/digiclock
+    nohup flask --app main.py run &
     startx -- -nocursor
 fi
 ```
@@ -86,7 +89,7 @@ xset s off
 xset s noblank
 
 unclutter &
-chromium-browser /home/pi/rpi-playground/digiclock/main.html \
+chromium-browser http://127.0.0.1:5000 \
     --window-size=1280,400 \
     --window-position=0,0 \
     --start-fullscreen \
